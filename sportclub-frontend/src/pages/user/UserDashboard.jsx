@@ -13,19 +13,19 @@ export default function UserDashboard() {
       <h1>Panel de Usuario</h1>
       {data ? (
         <div className="stats-grid">
-          <div className="stat-card" style={{ borderLeft: '4px solid #4e73df' }}>
+          <div className="stat-card" style={{ borderLeft: '4px solid #a3e635' }}>
             <div className="stat-label">Clases Disponibles</div>
             <div className="stat-value">{data.availableClasses || data.classes || 0}</div>
           </div>
-          <div className="stat-card" style={{ borderLeft: '4px solid #1cc88a' }}>
+          <div className="stat-card" style={{ borderLeft: '4px solid #a3e635' }}>
             <div className="stat-label">Deportes</div>
             <div className="stat-value">{data.sports || 0}</div>
           </div>
-          <div className="stat-card" style={{ borderLeft: '4px solid #36b9cc' }}>
+          <div className="stat-card" style={{ borderLeft: '4px solid #84cc16' }}>
             <div className="stat-label">Salas</div>
             <div className="stat-value">{data.rooms || 0}</div>
           </div>
-          <div className="stat-card" style={{ borderLeft: '4px solid #f6c23e' }}>
+          <div className="stat-card" style={{ borderLeft: '4px solid #65a30d' }}>
             <div className="stat-label">Mis Reservas</div>
             <div className="stat-value">{data.myReservations || 0}</div>
           </div>

@@ -21,10 +21,10 @@ export default function DashboardAdmin() {
   }, []);
 
   const cards = [
-    { label: 'Usuarios', value: stats.users, color: '#4e73df' },
-    { label: 'Deportes', value: stats.sports, color: '#1cc88a' },
-    { label: 'Salas', value: stats.rooms, color: '#36b9cc' },
-    { label: 'Reservas', value: stats.reservations, color: '#f6c23e' },
+    { label: 'Usuarios', value: stats.users, color: '#a3e635' },
+    { label: 'Deportes', value: stats.sports, color: '#84cc16' },
+    { label: 'Salas', value: stats.rooms, color: '#65a30d' },
+    { label: 'Reservas', value: stats.reservations, color: '#a3e635' },
   ];
 
   return (
