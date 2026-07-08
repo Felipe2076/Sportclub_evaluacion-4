@@ -97,6 +97,13 @@ export default function DashboardAdmin() {
 
   useEffect(() => { loadAll(); }, [loadAll]);
 
+  useEffect(() => {
+    window.history.pushState(null, "", window.location.pathname);
+    const handlePopState = () => window.history.pushState(null, "", window.location.pathname);
+    window.addEventListener("popstate", handlePopState);
+    return () => window.removeEventListener("popstate", handlePopState);
+  }, []);
+
   const showToast = (msg) => { setToast(msg); setTimeout(() => setToast(""), 2600); };
 
   const stats = useMemo(() => [

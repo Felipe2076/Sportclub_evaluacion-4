@@ -100,6 +100,13 @@ export default function UserDashboard() {
     if (user) setProfileForm({ full_name: user.full_name || '', email: user.email || '', birth_date: user.birth_date || '' });
   }, [user]);
 
+  useEffect(() => {
+    window.history.pushState(null, '', window.location.pathname);
+    const handlePopState = () => window.history.pushState(null, '', window.location.pathname);
+    window.addEventListener('popstate', handlePopState);
+    return () => window.removeEventListener('popstate', handlePopState);
+  }, []);
+
   const activeReservations = myReservations.filter((r) => r.status === 'active');
   const q = search.trim().toLowerCase();
   const filteredClasses = useMemo(() => classes.filter((c) => {
