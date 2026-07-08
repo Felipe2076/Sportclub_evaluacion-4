@@ -445,13 +445,6 @@ export default function CoachDashboard() {
     loadData();
   }, []);
 
-  useEffect(() => {
-    window.history.pushState(null, '', window.location.pathname);
-    const handlePopState = () => window.history.pushState(null, '', window.location.pathname);
-    window.addEventListener('popstate', handlePopState);
-    return () => window.removeEventListener('popstate', handlePopState);
-  }, []);
-
   const filteredClasses = useMemo(() => {
     const q = normalize(search);
     return classes.filter((c) => {
