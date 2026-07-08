@@ -1,5 +1,6 @@
 import { useMemo, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
 import { register } from "../services/authService";
 
 const styles = {
@@ -393,8 +394,9 @@ export default function RegisterPage() {
       setRegisteredUser({ name: form.full_name, sport: form.sport, level: form.level });
       setForm(initialForm);
       setTimeout(() => navigate("/login"), 2000);
-    } catch {
-      // handled by interceptor
+    } catch (err) {
+      const msg = err.response?.data?.message || err.response?.data?.error || "No se pudo completar el registro";
+      Swal.fire({ icon: "error", title: "Error", text: msg });
     } finally {
       setSubmitting(false);
     }

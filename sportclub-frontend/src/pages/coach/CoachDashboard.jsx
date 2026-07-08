@@ -370,23 +370,6 @@ const styles = {
     boxSizing: "border-box",
     resize: "vertical",
   },
-  modalBackdrop: {
-    position: "fixed",
-    inset: 0,
-    zIndex: 50,
-    background: "rgba(0,0,0,.72)",
-    display: "grid",
-    placeItems: "center",
-    padding: "18px",
-  },
-  modal: {
-    width: "min(760px,100%)",
-    borderRadius: "26px",
-    background: "#111114",
-    border: "1px solid rgba(255,255,255,.12)",
-    boxShadow: "0 26px 90px rgba(0,0,0,.50)",
-    overflow: "hidden",
-  },
   error: {
     color: "#ff8585",
     fontSize: "12px",

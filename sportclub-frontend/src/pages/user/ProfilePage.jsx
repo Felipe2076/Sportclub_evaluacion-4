@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Card, Form, Button, Container } from 'react-bootstrap';
 import { useAuth } from '../../context/AuthContext';
 import { updateProfile, changePassword } from '../../services/authService';
 import Swal from 'sweetalert2';
@@ -46,45 +47,54 @@ export default function ProfilePage() {
   };
 
   return (
-    <div>
-      <h1>Mi Perfil</h1>
-      <div className="profile-section">
-        <h2>Datos Personales</h2>
-        <form onSubmit={handleProfileUpdate}>
-          <div className="form-group">
-            <label>Nombre completo</label>
-            <input value={form.full_name} onChange={(e) => setForm({ ...form, full_name: e.target.value })} required />
-          </div>
-          <div className="form-group">
-            <label>Email</label>
-            <input type="email" value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} required />
-          </div>
-          <div className="form-group">
-            <label>Fecha de nacimiento</label>
-            <input type="date" value={form.birth_date} onChange={(e) => setForm({ ...form, birth_date: e.target.value })} />
-          </div>
-          <button className="btn btn-primary" disabled={submitting}>{submitting ? 'Guardando...' : 'Actualizar Perfil'}</button>
-        </form>
-      </div>
+    <Container>
+      <h1 className="text-white fw-bold mb-4">Mi Perfil</h1>
 
-      <div className="profile-section">
-        <h2>Cambiar Contraseña</h2>
-        <form onSubmit={handlePasswordChange}>
-          <div className="form-group">
-            <label>Contraseña actual</label>
-            <input type="password" value={passForm.current_password} onChange={(e) => setPassForm({ ...passForm, current_password: e.target.value })} required />
-          </div>
-          <div className="form-group">
-            <label>Nueva contraseña</label>
-            <input type="password" value={passForm.new_password} onChange={(e) => setPassForm({ ...passForm, new_password: e.target.value })} required minLength={8} />
-          </div>
-          <div className="form-group">
-            <label>Confirmar nueva contraseña</label>
-            <input type="password" value={passForm.confirm_password} onChange={(e) => setPassForm({ ...passForm, confirm_password: e.target.value })} required />
-          </div>
-          <button className="btn btn-primary" disabled={submitting}>{submitting ? 'Cambiando...' : 'Cambiar Contraseña'}</button>
-        </form>
-      </div>
-    </div>
+      <Card bg="dark" text="white" className="mb-4 border-secondary">
+        <Card.Body>
+          <Card.Title className="fw-bold mb-3 pb-2 border-bottom border-secondary">Datos Personales</Card.Title>
+          <Form onSubmit={handleProfileUpdate}>
+            <Form.Group className="mb-3">
+              <Form.Label className="text-light fw-bold small">Nombre completo</Form.Label>
+              <Form.Control className="bg-dark text-white border-secondary" value={form.full_name} onChange={(e) => setForm({ ...form, full_name: e.target.value })} required />
+            </Form.Group>
+            <Form.Group className="mb-3">
+              <Form.Label className="text-light fw-bold small">Email</Form.Label>
+              <Form.Control type="email" className="bg-dark text-white border-secondary" value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} required />
+            </Form.Group>
+            <Form.Group className="mb-3">
+              <Form.Label className="text-light fw-bold small">Fecha de nacimiento</Form.Label>
+              <Form.Control type="date" className="bg-dark text-white border-secondary" value={form.birth_date} onChange={(e) => setForm({ ...form, birth_date: e.target.value })} />
+            </Form.Group>
+            <Button type="submit" variant="warning" className="fw-bold text-dark" disabled={submitting}>
+              {submitting ? 'Guardando...' : 'Actualizar Perfil'}
+            </Button>
+          </Form>
+        </Card.Body>
+      </Card>
+
+      <Card bg="dark" text="white" className="mb-4 border-secondary">
+        <Card.Body>
+          <Card.Title className="fw-bold mb-3 pb-2 border-bottom border-secondary">Cambiar Contraseña</Card.Title>
+          <Form onSubmit={handlePasswordChange}>
+            <Form.Group className="mb-3">
+              <Form.Label className="text-light fw-bold small">Contraseña actual</Form.Label>
+              <Form.Control type="password" className="bg-dark text-white border-secondary" value={passForm.current_password} onChange={(e) => setPassForm({ ...passForm, current_password: e.target.value })} required />
+            </Form.Group>
+            <Form.Group className="mb-3">
+              <Form.Label className="text-light fw-bold small">Nueva contraseña</Form.Label>
+              <Form.Control type="password" className="bg-dark text-white border-secondary" value={passForm.new_password} onChange={(e) => setPassForm({ ...passForm, new_password: e.target.value })} required minLength={8} />
+            </Form.Group>
+            <Form.Group className="mb-3">
+              <Form.Label className="text-light fw-bold small">Confirmar nueva contraseña</Form.Label>
+              <Form.Control type="password" className="bg-dark text-white border-secondary" value={passForm.confirm_password} onChange={(e) => setPassForm({ ...passForm, confirm_password: e.target.value })} required />
+            </Form.Group>
+            <Button type="submit" variant="warning" className="fw-bold text-dark" disabled={submitting}>
+              {submitting ? 'Cambiando...' : 'Cambiar Contraseña'}
+            </Button>
+          </Form>
+        </Card.Body>
+      </Card>
+    </Container>
   );
 }

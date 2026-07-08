@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
+import Swal from "sweetalert2";
 import { Trophy, Mail, Lock, User, Eye, EyeOff, ArrowRight, ShieldCheck, CheckCircle2 } from "lucide-react";
 
 export default function LoginPage() {
@@ -20,8 +21,9 @@ export default function LoginPage() {
         : user.role === 'coach' ? '/coach/dashboard'
         : '/user/dashboard';
       navigate(route);
-    } catch {
-      // handled by interceptor
+    } catch (err) {
+      const msg = err.response?.data?.message || err.response?.data?.error || "Credenciales inválidas";
+      Swal.fire({ icon: "error", title: "Error", text: msg });
     } finally {
       setLoading(false);
     }

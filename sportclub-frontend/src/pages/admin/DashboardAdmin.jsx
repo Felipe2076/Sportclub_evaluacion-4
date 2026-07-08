@@ -1,5 +1,6 @@
 import { useState, useEffect, useMemo, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
+import { Modal, Button, Form } from "react-bootstrap";
 import api from "../../services/api";
 import Swal from "sweetalert2";
 
@@ -35,13 +36,7 @@ const S = {
   th: { textAlign: "left", color: "rgba(255,255,255,.45)", fontSize: "11px", padding: "0 10px 10px", textTransform: "uppercase", letterSpacing: "1px", fontWeight: 800 },
   td: { padding: "12px 10px", borderTop: "1px solid rgba(255,255,255,.06)", fontSize: "13px", verticalAlign: "middle" },
   badge: { display: "inline-block", borderRadius: "999px", padding: "5px 9px", fontSize: "11px", fontWeight: 900 },
-  modalBackdrop: { position: "fixed", inset: 0, zIndex: 50, background: "rgba(0,0,0,.72)", display: "grid", placeItems: "center", padding: "18px" },
-  modal: { width: "min(640px, 100%)", borderRadius: "24px", background: "#111114", border: "1px solid rgba(255,255,255,.12)", boxShadow: "0 26px 90px rgba(0,0,0,.50)", overflow: "hidden", maxHeight: "90vh", overflowY: "auto" },
   formGrid: { display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: "12px" },
-  formGroup: { display: "grid", gap: "6px" },
-  label: { fontSize: "12px", color: "rgba(255,255,255,.76)", fontWeight: 850 },
-  input: { width: "100%", height: "42px", borderRadius: "12px", border: "1px solid rgba(255,255,255,.14)", background: "rgba(255,255,255,.065)", color: "#fff", padding: "0 12px", outline: "none", boxSizing: "border-box", fontSize: "13px" },
-  select: { width: "100%", height: "42px", borderRadius: "12px", border: "1px solid rgba(255,255,255,.14)", background: "#17171a", color: "#fff", padding: "0 12px", outline: "none", boxSizing: "border-box", fontSize: "13px" },
 };
 
 const dayNames = { 1: "Lunes", 2: "Martes", 3: "Miércoles", 4: "Jueves", 5: "Viernes", 6: "Sábado", 7: "Domingo" };
@@ -343,74 +338,56 @@ export default function DashboardAdmin() {
           </tr>} />
         )}
 
-        {modalType && (
-          <div style={S.modalBackdrop} onClick={closeModal}>
-            <div style={S.modal} onClick={(e) => e.stopPropagation()}>
-              <div style={S.panelHeader}>
-                <h3 style={S.panelTitle}>{editing ? "Editar" : "Crear"} {modalType === "user" ? "usuario" : modalType === "sport" ? "deporte" : modalType === "room" ? "sala" : modalType === "sportroom" ? "asignación" : "horario"}</h3>
-                <button type="button" style={S.secondaryBtn} onClick={closeModal}>Cerrar</button>
+        <Modal show={!!modalType} onHide={closeModal} centered size="lg" contentClassName="bg-dark text-white border-secondary">
+          <Modal.Header closeButton closeVariant="white" style={{ borderBottom: "1px solid rgba(255,255,255,.1)", background: "#111114" }}>
+            <Modal.Title style={{ fontWeight: 1000, fontSize: "18px" }}>{editing ? "Editar" : "Crear"} {modalType === "user" ? "usuario" : modalType === "sport" ? "deporte" : modalType === "room" ? "sala" : modalType === "sportroom" ? "asignación" : "horario"}</Modal.Title>
+          </Modal.Header>
+          <Form onSubmit={handleSave} noValidate style={{ background: "#111114" }}>
+            <Modal.Body>
+              <div style={S.formGrid}>
+                {modalType === "user" && (<>
+                  <Form.Group><Form.Label className="text-light small fw-bold">Nombre</Form.Label><Form.Control name="full_name" value={form.full_name||""} onChange={handleChange} isInvalid={!!errors.full_name} className="bg-dark text-white border-secondary" /><Form.Control.Feedback type="invalid">{errors.full_name}</Form.Control.Feedback></Form.Group>
+                  <Form.Group><Form.Label className="text-light small fw-bold">Email</Form.Label><Form.Control name="email" type="email" value={form.email||""} onChange={handleChange} isInvalid={!!errors.email} className="bg-dark text-white border-secondary" /><Form.Control.Feedback type="invalid">{errors.email}</Form.Control.Feedback></Form.Group>
+                  <Form.Group><Form.Label className="text-light small fw-bold">Contraseña</Form.Label><Form.Control name="password" type="password" value={form.password||""} onChange={handleChange} className="bg-dark text-white border-secondary" placeholder={editing?"(dejar vacío)":""} /></Form.Group>
+                  <Form.Group><Form.Label className="text-light small fw-bold">Rol</Form.Label><Form.Select name="role" value={form.role||"user"} onChange={handleChange} className="bg-dark text-white border-secondary"><option value="user">Usuario</option><option value="coach">Coach</option><option value="admin">Admin</option></Form.Select></Form.Group>
+                  <Form.Group><Form.Label className="text-light small fw-bold">Fecha nac.</Form.Label><Form.Control name="birth_date" type="date" value={form.birth_date||""} onChange={handleChange} className="bg-dark text-white border-secondary" /></Form.Group>
+                </>)}
+                {modalType === "sport" && (<>
+                  <Form.Group><Form.Label className="text-light small fw-bold">Nombre</Form.Label><Form.Control name="name" value={form.name||""} onChange={handleChange} isInvalid={!!errors.name} className="bg-dark text-white border-secondary" /><Form.Control.Feedback type="invalid">{errors.name}</Form.Control.Feedback></Form.Group>
+                  <Form.Group><Form.Label className="text-light small fw-bold">Objetivo</Form.Label><Form.Control as="textarea" name="objective" value={form.objective||""} onChange={handleChange} isInvalid={!!errors.objective} className="bg-dark text-white border-secondary" style={{minHeight:"80px",resize:"vertical"}} /><Form.Control.Feedback type="invalid">{errors.objective}</Form.Control.Feedback></Form.Group>
+                  <Form.Group><Form.Label className="text-light small fw-bold">Duración (min)</Form.Label><Form.Control name="duration" type="number" value={form.duration||60} onChange={handleChange} className="bg-dark text-white border-secondary" min={1} /></Form.Group>
+                  <Form.Group><Form.Check name="status" type="switch" id="sport-status" label="Activo" checked={!!form.status} onChange={(e)=>setForm(p=>({...p,status:e.target.checked}))} className="text-light" /></Form.Group>
+                </>)}
+                {modalType === "room" && (<>
+                  <Form.Group><Form.Label className="text-light small fw-bold">Nombre</Form.Label><Form.Control name="name" value={form.name||""} onChange={handleChange} isInvalid={!!errors.name} className="bg-dark text-white border-secondary" /><Form.Control.Feedback type="invalid">{errors.name}</Form.Control.Feedback></Form.Group>
+                  <Form.Group><Form.Label className="text-light small fw-bold">Descripción</Form.Label><Form.Control as="textarea" name="description" value={form.description||""} onChange={handleChange} isInvalid={!!errors.description} className="bg-dark text-white border-secondary" style={{minHeight:"60px",resize:"vertical"}} /><Form.Control.Feedback type="invalid">{errors.description}</Form.Control.Feedback></Form.Group>
+                  <Form.Group><Form.Label className="text-light small fw-bold">Capacidad</Form.Label><Form.Control name="capacity" type="number" value={form.capacity||10} onChange={handleChange} className="bg-dark text-white border-secondary" min={1} /></Form.Group>
+                  <Form.Group><Form.Label className="text-light small fw-bold">Ubicación</Form.Label><Form.Control name="location" value={form.location||""} onChange={handleChange} className="bg-dark text-white border-secondary" /></Form.Group>
+                  <Form.Group><Form.Label className="text-light small fw-bold">Observación</Form.Label><Form.Control name="observation" value={form.observation||""} onChange={handleChange} className="bg-dark text-white border-secondary" /></Form.Group>
+                  <Form.Group><Form.Check name="status" type="switch" id="room-status" label="Activo" checked={!!form.status} onChange={(e)=>setForm(p=>({...p,status:e.target.checked}))} className="text-light" /></Form.Group>
+                </>)}
+                {modalType === "sportroom" && (<>
+                  <Form.Group><Form.Label className="text-light small fw-bold">Deporte</Form.Label><Form.Select name="sport_id" value={form.sport_id||""} onChange={handleChange} isInvalid={!!errors.sport_id} className="bg-dark text-white border-secondary"><option value="">Seleccionar deporte...</option>{sports.map((s)=><option key={s.id} value={s.id}>{s.name}</option>)}</Form.Select><Form.Control.Feedback type="invalid">{errors.sport_id}</Form.Control.Feedback></Form.Group>
+                  <Form.Group><Form.Label className="text-light small fw-bold">Sala</Form.Label><Form.Select name="room_id" value={form.room_id||""} onChange={handleChange} isInvalid={!!errors.room_id} className="bg-dark text-white border-secondary"><option value="">Seleccionar sala...</option>{rooms.map((r)=><option key={r.id} value={r.id}>{r.name}</option>)}</Form.Select><Form.Control.Feedback type="invalid">{errors.room_id}</Form.Control.Feedback></Form.Group>
+                  <Form.Group><Form.Label className="text-light small fw-bold">Coach</Form.Label><Form.Select name="coach_id" value={form.coach_id||""} onChange={handleChange} isInvalid={!!errors.coach_id} className="bg-dark text-white border-secondary"><option value="">Seleccionar coach...</option>{coaches.map((c)=><option key={c.id} value={c.id}>{c.full_name}</option>)}</Form.Select><Form.Control.Feedback type="invalid">{errors.coach_id}</Form.Control.Feedback></Form.Group>
+                  <Form.Group><Form.Label className="text-light small fw-bold">Observación</Form.Label><Form.Control name="observation" value={form.observation||""} onChange={handleChange} className="bg-dark text-white border-secondary" /></Form.Group>
+                  <Form.Group><Form.Check name="status" type="switch" id="sr-status" label="Activo" checked={!!form.status} onChange={(e)=>setForm(p=>({...p,status:e.target.checked}))} className="text-light" /></Form.Group>
+                </>)}
+                {modalType === "schedule" && (<>
+                  <Form.Group><Form.Label className="text-light small fw-bold">SportRoom ID</Form.Label><Form.Control name="sport_room_id" type="number" value={form.sport_room_id||""} onChange={handleChange} isInvalid={!!errors.sport_room_id} className="bg-dark text-white border-secondary" /><Form.Control.Feedback type="invalid">{errors.sport_room_id}</Form.Control.Feedback></Form.Group>
+                  <Form.Group><Form.Label className="text-light small fw-bold">Día</Form.Label><Form.Select name="day_of_week" value={form.day_of_week||1} onChange={handleChange} className="bg-dark text-white border-secondary">{Object.entries(dayNames).map(([k,v])=><option key={k} value={k}>{v}</option>)}</Form.Select></Form.Group>
+                  <Form.Group><Form.Label className="text-light small fw-bold">Inicio</Form.Label><Form.Control name="start_time" type="time" value={form.start_time||"08:00"} onChange={handleChange} className="bg-dark text-white border-secondary" /></Form.Group>
+                  <Form.Group><Form.Label className="text-light small fw-bold">Fin</Form.Label><Form.Control name="end_time" type="time" value={form.end_time||"09:00"} onChange={handleChange} className="bg-dark text-white border-secondary" /></Form.Group>
+                  <Form.Group><Form.Check name="status" type="switch" id="sc-status" label="Activo" checked={!!form.status} onChange={(e)=>setForm(p=>({...p,status:e.target.checked}))} className="text-light" /></Form.Group>
+                </>)}
               </div>
-              <form onSubmit={handleSave} style={S.panelBody} noValidate>
-                <div style={S.formGrid}>
-                  {modalType === "user" && (<>
-                    <FG label="Nombre" error={errors.full_name}><input name="full_name" value={form.full_name||""} onChange={handleChange} style={S.input} /></FG>
-                    <FG label="Email" error={errors.email}><input name="email" type="email" value={form.email||""} onChange={handleChange} style={S.input} /></FG>
-                    <FG label="Contraseña"><input name="password" type="password" value={form.password||""} onChange={handleChange} style={S.input} placeholder={editing?"(dejar vacío)":""} /></FG>
-                    <FG label="Rol"><select name="role" value={form.role||"user"} onChange={handleChange} style={S.select}><option value="user">Usuario</option><option value="coach">Coach</option><option value="admin">Admin</option></select></FG>
-                    <FG label="Fecha nac."><input name="birth_date" type="date" value={form.birth_date||""} onChange={handleChange} style={S.input} /></FG>
-                  </>)}
-                  {modalType === "sport" && (<>
-                    <FG label="Nombre" error={errors.name}><input name="name" value={form.name||""} onChange={handleChange} style={S.input} /></FG>
-                    <FG label="Objetivo" error={errors.objective}><textarea name="objective" value={form.objective||""} onChange={handleChange} style={{...S.input, minHeight:"80px", padding:"10px 12px", resize:"vertical"}} /></FG>
-                    <FG label="Duración (min)"><input name="duration" type="number" value={form.duration||60} onChange={handleChange} style={S.input} min={1} /></FG>
-                    <FG label="Activo"><label style={{display:"flex", alignItems:"center", gap:"8px", color:"rgba(255,255,255,.7)", fontSize:"14px"}}><input name="status" type="checkbox" checked={!!form.status} onChange={handleChange} style={{accentColor:"#ffb000"}} /> Activo</label></FG>
-                  </>)}
-                  {modalType === "room" && (<>
-                    <FG label="Nombre" error={errors.name}><input name="name" value={form.name||""} onChange={handleChange} style={S.input} /></FG>
-                    <FG label="Descripción" error={errors.description}><textarea name="description" value={form.description||""} onChange={handleChange} style={{...S.input, minHeight:"60px", padding:"10px 12px", resize:"vertical"}} /></FG>
-                    <FG label="Capacidad"><input name="capacity" type="number" value={form.capacity||10} onChange={handleChange} style={S.input} min={1} /></FG>
-                    <FG label="Ubicación"><input name="location" value={form.location||""} onChange={handleChange} style={S.input} /></FG>
-                    <FG label="Observación"><input name="observation" value={form.observation||""} onChange={handleChange} style={S.input} /></FG>
-                    <FG label="Activo"><label style={{display:"flex", alignItems:"center", gap:"8px", color:"rgba(255,255,255,.7)", fontSize:"14px"}}><input name="status" type="checkbox" checked={!!form.status} onChange={handleChange} style={{accentColor:"#ffb000"}} /> Activo</label></FG>
-                  </>)}
-                  {modalType === "sportroom" && (<>
-                    <FG label="Deporte" error={errors.sport_id}>
-                      <select name="sport_id" value={form.sport_id||""} onChange={handleChange} style={S.select}>
-                        <option value="">Seleccionar deporte...</option>
-                        {sports.map((s) => <option key={s.id} value={s.id}>{s.name}</option>)}
-                      </select>
-                    </FG>
-                    <FG label="Sala" error={errors.room_id}>
-                      <select name="room_id" value={form.room_id||""} onChange={handleChange} style={S.select}>
-                        <option value="">Seleccionar sala...</option>
-                        {rooms.map((r) => <option key={r.id} value={r.id}>{r.name}</option>)}
-                      </select>
-                    </FG>
-                    <FG label="Coach" error={errors.coach_id}>
-                      <select name="coach_id" value={form.coach_id||""} onChange={handleChange} style={S.select}>
-                        <option value="">Seleccionar coach...</option>
-                        {coaches.map((c) => <option key={c.id} value={c.id}>{c.full_name}</option>)}
-                      </select>
-                    </FG>
-                    <FG label="Observación"><input name="observation" value={form.observation||""} onChange={handleChange} style={S.input} /></FG>
-                    <FG label="Activo"><label style={{display:"flex", alignItems:"center", gap:"8px", color:"rgba(255,255,255,.7)", fontSize:"14px"}}><input name="status" type="checkbox" checked={!!form.status} onChange={handleChange} style={{accentColor:"#ffb000"}} /> Activo</label></FG>
-                  </>)}
-                  {modalType === "schedule" && (<>
-                    <FG label="SportRoom ID" error={errors.sport_room_id}><input name="sport_room_id" type="number" value={form.sport_room_id||""} onChange={handleChange} style={S.input} /></FG>
-                    <FG label="Día"><select name="day_of_week" value={form.day_of_week||1} onChange={handleChange} style={S.select}>{Object.entries(dayNames).map(([k,v]) => <option key={k} value={k}>{v}</option>)}</select></FG>
-                    <FG label="Inicio"><input name="start_time" type="time" value={form.start_time||"08:00"} onChange={handleChange} style={S.input} /></FG>
-                    <FG label="Fin"><input name="end_time" type="time" value={form.end_time||"09:00"} onChange={handleChange} style={S.input} /></FG>
-                    <FG label="Activo"><label style={{display:"flex", alignItems:"center", gap:"8px", color:"rgba(255,255,255,.7)", fontSize:"14px"}}><input name="status" type="checkbox" checked={!!form.status} onChange={handleChange} style={{accentColor:"#ffb000"}} /> Activo</label></FG>
-                  </>)}
-                </div>
-                <div style={{ display: "flex", gap: "12px", marginTop: "20px", justifyContent: "flex-end", flexWrap: "wrap" }}>
-                  <button type="button" style={S.secondaryBtn} onClick={closeModal}>Cancelar</button>
-                  <button type="submit" style={S.primaryBtn}>Guardar</button>
-                </div>
-              </form>
-            </div>
-          </div>
-        )}
+            </Modal.Body>
+            <Modal.Footer style={{ borderTop: "1px solid rgba(255,255,255,.1)", background: "#111114" }}>
+              <Button variant="outline-light" size="sm" onClick={closeModal}>Cancelar</Button>
+              <Button type="submit" style={{ background: "linear-gradient(135deg,#ffb000,#ff6500)", border: 0, fontWeight: 1000, color: "#080808", padding: "11px 20px" }}>Guardar</Button>
+            </Modal.Footer>
+          </Form>
+        </Modal>
       </main>
     </div>
   );
@@ -446,12 +423,4 @@ function CRUDTable({ title, data, onCreate, columns, renderRow }) {
   );
 }
 
-function FG({ label, error, children }) {
-  return (
-    <div style={S.formGroup}>
-      <label style={S.label}>{label}</label>
-      {children}
-      {error && <span style={{color:"#ff8585",fontSize:"11px",fontWeight:700}}>{error}</span>}
-    </div>
-  );
-}
+
