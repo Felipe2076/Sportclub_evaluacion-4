@@ -121,13 +121,17 @@ export default function DashboardAdmin() {
     setEditing(item);
     setErrors({});
     if (!item) {
-      if (type === "user") setForm({ full_name: "", email: "", password: "", role: "user", birth_date: "" });
+      if (type === "user") setForm({ first_name: "", last_name: "", email: "", password: "", role: "user", birth_date: "" });
       else if (type === "sport") setForm({ name: "", objective: "", duration: 60, status: true });
       else if (type === "room") setForm({ name: "", description: "", capacity: 10, location: "", observation: "", image_url: "", status: true });
       else if (type === "sportroom") setForm({ sport_id: "", room_id: "", coach_id: "", observation: "", status: true });
       else if (type === "schedule") setForm({ sport_room_id: "", day_of_week: 1, start_time: "08:00", end_time: "09:00", status: true });
     } else {
-      if (type === "user") setForm({ full_name: item.full_name, email: item.email, password: "", role: item.role, birth_date: item.birth_date || "" });
+      if (type === "user") {
+        const parts = (item.full_name || "").split(" ");
+        const last = parts.pop() || "";
+        setForm({ first_name: parts.join(" "), last_name: last, email: item.email, password: "", role: item.role, birth_date: item.birth_date || "" });
+      }
       else if (type === "sport") setForm({ name: item.name, objective: item.objective, duration: item.duration, status: item.status });
       else if (type === "room") setForm({ name: item.name, description: item.description, capacity: item.capacity, location: item.location||"", observation: item.observation||"", image_url: item.image_url||"", status: item.status });
       else if (type === "sportroom") setForm({ sport_id: item.sport_id, room_id: item.room_id, coach_id: item.coach_id, observation: item.observation||"", status: item.status });
@@ -146,7 +150,7 @@ export default function DashboardAdmin() {
 
   const validate = () => {
     const err = {};
-    if (modalType === "user") { if (!form.full_name?.trim()) err.full_name = "Requerido"; if (!form.email?.trim()) err.email = "Requerido"; }
+    if (modalType === "user") { if (!form.first_name?.trim()) err.first_name = "Requerido"; if (!form.last_name?.trim()) err.last_name = "Requerido"; if (!form.email?.trim()) err.email = "Requerido"; }
     if (modalType === "sport") { if (!form.name?.trim()) err.name = "Requerido"; if (!form.objective?.trim()) err.objective = "Requerido"; }
     if (modalType === "room") { if (!form.name?.trim()) err.name = "Requerido"; if (!form.description?.trim()) err.description = "Requerido"; }
     if (modalType === "sportroom") { if (!form.sport_id) err.sport_id = "Selecciona un deporte"; if (!form.room_id) err.room_id = "Selecciona una sala"; if (!form.coach_id) err.coach_id = "Selecciona un coach"; }
@@ -161,7 +165,9 @@ export default function DashboardAdmin() {
     if (Object.keys(v).length > 0) return;
     try {
       if (modalType === "user") {
-        const payload = { ...form };
+        const payload = { ...form, full_name: `${form.first_name} ${form.last_name}`.trim() };
+        delete payload.first_name;
+        delete payload.last_name;
         if (editing && !payload.password) delete payload.password;
         if (editing) await api.put(`/users/${editing.id}`, payload); else await api.post("/users", payload);
         showToast(editing ? "Usuario actualizado" : "Usuario creado");
@@ -181,7 +187,10 @@ export default function DashboardAdmin() {
       }
       closeModal();
       loadAll();
-    } catch { /* handled */ }
+    } catch (err) {
+      const msg = err.response?.data?.message || err.response?.data?.error || "Error al guardar";
+      Swal.fire({ icon: "error", title: "Error", text: msg });
+    }
   };
 
   const handleDelete = async (type, id, name = "") => {
@@ -346,7 +355,8 @@ export default function DashboardAdmin() {
             <Modal.Body>
               <div style={S.formGrid}>
                 {modalType === "user" && (<>
-                  <Form.Group><Form.Label className="text-light small fw-bold">Nombre</Form.Label><Form.Control name="full_name" value={form.full_name||""} onChange={handleChange} isInvalid={!!errors.full_name} className="bg-dark text-white border-secondary" /><Form.Control.Feedback type="invalid">{errors.full_name}</Form.Control.Feedback></Form.Group>
+                  <Form.Group><Form.Label className="text-light small fw-bold">Nombre</Form.Label><Form.Control name="first_name" value={form.first_name||""} onChange={handleChange} isInvalid={!!errors.first_name} className="bg-dark text-white border-secondary" placeholder="Ej: Eduardo" /><Form.Control.Feedback type="invalid">{errors.first_name}</Form.Control.Feedback></Form.Group>
+                  <Form.Group><Form.Label className="text-light small fw-bold">Apellidos</Form.Label><Form.Control name="last_name" value={form.last_name||""} onChange={handleChange} isInvalid={!!errors.last_name} className="bg-dark text-white border-secondary" placeholder="Ej: Pérez González" /><Form.Control.Feedback type="invalid">{errors.last_name}</Form.Control.Feedback></Form.Group>
                   <Form.Group><Form.Label className="text-light small fw-bold">Email</Form.Label><Form.Control name="email" type="email" value={form.email||""} onChange={handleChange} isInvalid={!!errors.email} className="bg-dark text-white border-secondary" /><Form.Control.Feedback type="invalid">{errors.email}</Form.Control.Feedback></Form.Group>
                   <Form.Group><Form.Label className="text-light small fw-bold">Contraseña</Form.Label><Form.Control name="password" type="password" value={form.password||""} onChange={handleChange} className="bg-dark text-white border-secondary" placeholder={editing?"(dejar vacío)":""} /></Form.Group>
                   <Form.Group><Form.Label className="text-light small fw-bold">Rol</Form.Label><Form.Select name="role" value={form.role||"user"} onChange={handleChange} className="bg-dark text-white border-secondary"><option value="user">Usuario</option><option value="coach">Coach</option><option value="admin">Admin</option></Form.Select></Form.Group>
