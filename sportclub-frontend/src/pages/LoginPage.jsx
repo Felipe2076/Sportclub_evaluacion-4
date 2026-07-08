@@ -2,195 +2,170 @@ import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import Swal from "sweetalert2";
-import { Trophy, Mail, Lock, User, Eye, EyeOff, ArrowRight, ShieldCheck, CheckCircle2 } from "lucide-react";
+import { Trophy, Mail, Lock, Eye, EyeOff, ArrowRight, ShieldCheck } from "lucide-react";
+
+const demoUsers = [
+  { label: "Admin", email: "admin1@demo.cl", password: "12345678", color: "#ffb000" },
+  { label: "Coach", email: "coach1@demo.cl", password: "12345678", color: "#60a5fa" },
+  { label: "User", email: "user1@demo.cl", password: "12345678", color: "#86efac" },
+];
 
 export default function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [fieldErrors, setFieldErrors] = useState({});
   const { login } = useAuth();
   const navigate = useNavigate();
 
+  const fillDemo = (e) => {
+    setEmail(e.email);
+    setPassword(e.password);
+    setFieldErrors({});
+  };
+
+  const validate = () => {
+    const err = {};
+    if (!email.trim()) err.email = "Ingresa tu correo electrónico";
+    else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim())) err.email = "Correo no válido";
+    if (!password) err.password = "Ingresa tu contraseña";
+    else if (password.length < 6) err.password = "Mínimo 6 caracteres";
+    return err;
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+    const err = validate();
+    setFieldErrors(err);
+    if (Object.keys(err).length > 0) return;
     setLoading(true);
     try {
-      const user = await login(email, password);
+      const user = await login(email.trim(), password);
       const route = user.role === 'admin' ? '/dashboard'
         : user.role === 'coach' ? '/coach/dashboard'
         : '/user/dashboard';
       navigate(route);
     } catch (err) {
       const msg = err.response?.data?.message || err.response?.data?.error || "Credenciales inválidas";
-      Swal.fire({ icon: "error", title: "Error", text: msg });
+      Swal.fire({ icon: "error", title: "Error de acceso", text: msg, confirmButtonColor: "#ffb000" });
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div className="min-h-screen bg-slate-950 px-4 py-10 text-white sm:px-6 lg:px-8" style={{ fontFamily: "Inter, ui-sans-serif, system-ui, sans-serif" }}>
-      <div style={{
-        position: "fixed", inset: 0, zIndex: -10,
-        background: "radial-gradient(circle at top left,rgba(255,176,0,0.22),transparent 35%),radial-gradient(circle at bottom right,rgba(59,130,246,0.18),transparent 35%)"
-      }} />
+    <div style={{ minHeight: "100vh", background: "#0b0b0d", color: "#fff", fontFamily: "Inter, ui-sans-serif, system-ui, sans-serif", display: "flex", alignItems: "center", justifyContent: "center", padding: "20px", position: "relative" }}>
+      <div style={{ position: "fixed", inset: 0, zIndex: 0, background: "radial-gradient(circle at top left,rgba(255,176,0,0.22),transparent 35%),radial-gradient(circle at bottom right,rgba(59,130,246,0.18),transparent 35%)" }} />
 
-      <div className="mx-auto grid max-w-6xl overflow-hidden rounded-[2rem] border border-white/10 bg-white/5 shadow-2xl backdrop-blur lg:grid-cols-2">
-        <section className="relative hidden min-h-[680px] overflow-hidden lg:block">
-          <img
-            src="https://images.unsplash.com/photo-1517649763962-0c623066013b?q=80&w=1600&auto=format&fit=crop"
-            alt="Personas practicando deportes"
-            style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover" }}
-          />
-          <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to top, #0b0b0d, rgba(11,11,13,0.65), rgba(11,11,13,0.2))" }} />
-          <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, padding: "40px" }}>
-              <div style={{ marginBottom: "20px", display: "inline-flex", alignItems: "center", gap: "8px", borderRadius: "999px", background: "#ffb000", padding: "8px 16px", fontSize: "13px", fontWeight: 900, color: "#080808" }}>
-              <Trophy className="h-4 w-4" /> SportClub
+      <div style={{ position: "relative", zIndex: 1, width: "100%", maxWidth: "440px" }}>
+        <Link to="/" style={{ display: "inline-flex", alignItems: "center", gap: "8px", color: "rgba(255,255,255,0.6)", textDecoration: "none", fontSize: "13px", fontWeight: 700, marginBottom: "16px", transition: "color .2s" }}
+          onMouseEnter={(e) => e.target.style.color = "#ffb000"}
+          onMouseLeave={(e) => e.target.style.color = "rgba(255,255,255,0.6)"}>
+          ← Volver al inicio
+        </Link>
+
+        <div style={{ borderRadius: "24px", border: "1px solid rgba(255,255,255,0.1)", background: "rgba(2,6,23,0.8)", backdropFilter: "blur(12px)", padding: "36px", boxShadow: "0 24px 80px rgba(0,0,0,0.5)" }}>
+          <div style={{ textAlign: "center", marginBottom: "28px" }}>
+            <div style={{ margin: "0 auto 14px", width: "60px", height: "60px", display: "flex", alignItems: "center", justifyContent: "center", borderRadius: "18px", background: "linear-gradient(135deg,#ffb000,#ff6500)", color: "#080808", boxShadow: "0 8px 24px rgba(255,176,0,0.25)" }}>
+              <Trophy size={28} />
             </div>
-            <h1 style={{ fontSize: "clamp(36px, 4vw, 48px)", fontWeight: 900, lineHeight: 1.1, letterSpacing: "-1px", margin: 0 }}>
-              Entrena. Reserva. <br />Supera tus límites.
-            </h1>
-            <p style={{ marginTop: "16px", maxWidth: "420px", fontSize: "16px", color: "rgba(226,232,240,0.8)", lineHeight: 1.6 }}>
-              Accede a todas las instalaciones, coaches y clases del club. Gestiona tus reservas y sigue tu progreso.
+            <h1 style={{ fontSize: "24px", fontWeight: 1000, letterSpacing: "-0.5px", margin: 0 }}>Iniciar sesión</h1>
+            <p style={{ marginTop: "6px", fontSize: "14px", color: "rgba(148,163,184,0.8)" }}>
+              Accede a tu cuenta de SportClub
             </p>
-            <div style={{ marginTop: "32px", display: "grid", gap: "12px" }}>
-              {[
-                "Reserva clases con coaches certificados",
-                "Horarios flexibles de 7:00 a 22:00 hrs",
-                "Canchas, salas, piscina y más instalaciones",
-              ].map((item) => (
-                <div key={item} style={{ display: "flex", alignItems: "center", gap: "12px", borderRadius: "16px", background: "rgba(255,255,255,0.1)", padding: "14px", backdropFilter: "blur(4px)" }}>
-                  <CheckCircle2 className="h-5 w-5 shrink-0" style={{ color: "#ffb000" }} />
-                  <span style={{ fontWeight: 700, fontSize: "14px" }}>{item}</span>
-                </div>
-              ))}
-            </div>
           </div>
-        </section>
 
-        <section style={{ display: "flex", alignItems: "center", justifyContent: "center", padding: "24px", maxWidth: "100%" }}>
-          <div style={{ width: "100%", maxWidth: "420px", borderRadius: "2rem", border: "1px solid rgba(255,255,255,0.1)", background: "rgba(2,6,23,0.7)", padding: "28px", boxShadow: "0 20px 60px rgba(0,0,0,0.5)" }}>
-            <div style={{ marginBottom: "32px", textAlign: "center" }}>
-              <div style={{ margin: "0 auto 16px", width: "64px", height: "64px", display: "flex", alignItems: "center", justifyContent: "center", borderRadius: "24px", background: "#ffb000", color: "#080808", boxShadow: "0 8px 24px rgba(255,176,0,0.25)" }}>
-                <User className="h-8 w-8" />
+          <form onSubmit={handleSubmit} noValidate>
+            <div style={{ marginBottom: "16px" }}>
+              <label style={{ display: "block", marginBottom: "6px", fontSize: "13px", fontWeight: 700, color: "rgba(203,213,225,0.9)" }}>Correo electrónico</label>
+              <div style={{ position: "relative" }}>
+                <Mail size={18} style={{ position: "absolute", left: "14px", top: "50%", transform: "translateY(-50%)", color: fieldErrors.email ? "#ff8585" : "rgba(100,116,139,0.8)", pointerEvents: "none" }} />
+                <input type="email" value={email} onChange={(e) => { setEmail(e.target.value); setFieldErrors((p) => ({ ...p, email: "" })); }}
+                  placeholder="tu@correo.cl" required
+                  style={{ width: "100%", height: "48px", borderRadius: "14px", border: `1px solid ${fieldErrors.email ? "#ff8585" : "rgba(255,255,255,0.12)"}`,
+                    background: "rgba(255,255,255,0.05)", padding: "0 14px 0 44px", fontSize: "14px", outline: "none", color: "#fff", boxSizing: "border-box", transition: "border .2s" }}
+                  onFocus={(e) => { e.target.style.borderColor = "#ffb000"; e.target.style.boxShadow = "0 0 0 2px rgba(255,176,0,0.2)"; }}
+                  onBlur={(e) => { e.target.style.borderColor = fieldErrors.email ? "#ff8585" : "rgba(255,255,255,0.12)"; e.target.style.boxShadow = "none"; }} />
               </div>
-              <h2 style={{ fontSize: "28px", fontWeight: 900, letterSpacing: "-0.5px", margin: 0 }}>Iniciar sesión</h2>
-              <p style={{ marginTop: "8px", fontSize: "14px", color: "rgba(148,163,184,0.8)" }}>
-                Accede a tu cuenta de SportClub.
-              </p>
+              {fieldErrors.email && <span style={{ color: "#ff8585", fontSize: "12px", fontWeight: 700, marginTop: "4px", display: "block" }}>{fieldErrors.email}</span>}
             </div>
 
-            <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
-              <label style={{ display: "block" }}>
-                <span style={{ display: "block", marginBottom: "6px", fontSize: "13px", fontWeight: 700, color: "rgba(203,213,225,0.9)" }}>Correo electrónico</span>
-                <div style={{ position: "relative" }}>
-                  <Mail className="absolute left-4 top-1/2 -translate-y-1/2" style={{ height: "18px", width: "18px", color: "rgba(100,116,139,0.8)" }} />
-                  <input
-                    type="email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    placeholder="usuario@demo.cl"
-                    required
-                    style={{
-                      width: "100%", borderRadius: "16px", border: "1px solid rgba(255,255,255,0.1)",
-                      background: "rgba(255,255,255,0.05)", padding: "14px 14px 14px 44px",
-                      fontSize: "14px", outline: "none", color: "white", transition: "all 0.2s",
-                    }}
-                    onFocus={(e) => { e.target.style.borderColor = "#ffb000"; e.target.style.boxShadow = "0 0 0 2px rgba(255,176,0,0.25)"; }}
-                    onBlur={(e) => { e.target.style.borderColor = "rgba(255,255,255,0.1)"; e.target.style.boxShadow = "none"; }}
-                  />
-                </div>
-              </label>
-
-              <label style={{ display: "block" }}>
-                <span style={{ display: "block", marginBottom: "6px", fontSize: "13px", fontWeight: 700, color: "rgba(203,213,225,0.9)" }}>Contraseña</span>
-                <div style={{ position: "relative" }}>
-                  <Lock className="absolute left-4 top-1/2 -translate-y-1/2" style={{ height: "18px", width: "18px", color: "rgba(100,116,139,0.8)" }} />
-                  <input
-                    type={showPassword ? "text" : "password"}
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    placeholder="Ingresa tu contraseña"
-                    required
-                    style={{
-                      width: "100%", borderRadius: "16px", border: "1px solid rgba(255,255,255,0.1)",
-                      background: "rgba(255,255,255,0.05)", padding: "14px 44px 14px 44px",
-                      fontSize: "14px", outline: "none", color: "white", transition: "all 0.2s",
-                    }}
-                    onFocus={(e) => { e.target.style.borderColor = "#ffb000"; e.target.style.boxShadow = "0 0 0 2px rgba(255,176,0,0.25)"; }}
-                    onBlur={(e) => { e.target.style.borderColor = "rgba(255,255,255,0.1)"; e.target.style.boxShadow = "none"; }}
-                  />
-                  <button
-                    type="button"
-                    onClick={() => setShowPassword(!showPassword)}
-                    style={{ position: "absolute", right: "14px", top: "50%", transform: "translateY(-50%)", background: "none", border: "none", cursor: "pointer", color: "rgba(148,163,184,0.7)", padding: 0 }}
-                  >
-                    {showPassword ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
-                  </button>
-                </div>
-              </label>
-
-              <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", fontSize: "13px" }}>
-                <label style={{ display: "flex", alignItems: "center", gap: "8px", color: "rgba(203,213,225,0.8)" }}>
-                  <input type="checkbox" defaultChecked style={{ accentColor: "#ffb000" }} />
-                  Recordarme
-                </label>
-                <a href="#" style={{ fontWeight: 700, color: "#ffb000", textDecoration: "none" }}>
-                  ¿Olvidaste tu contraseña?
-                </a>
+            <div style={{ marginBottom: "20px" }}>
+              <label style={{ display: "block", marginBottom: "6px", fontSize: "13px", fontWeight: 700, color: "rgba(203,213,225,0.9)" }}>Contraseña</label>
+              <div style={{ position: "relative" }}>
+                <Lock size={18} style={{ position: "absolute", left: "14px", top: "50%", transform: "translateY(-50%)", color: fieldErrors.password ? "#ff8585" : "rgba(100,116,139,0.8)", pointerEvents: "none" }} />
+                <input type={showPassword ? "text" : "password"} value={password} onChange={(e) => { setPassword(e.target.value); setFieldErrors((p) => ({ ...p, password: "" })); }}
+                  placeholder="Ingresa tu contraseña" required
+                  style={{ width: "100%", height: "48px", borderRadius: "14px", border: `1px solid ${fieldErrors.password ? "#ff8585" : "rgba(255,255,255,0.12)"}`,
+                    background: "rgba(255,255,255,0.05)", padding: "0 44px 0 44px", fontSize: "14px", outline: "none", color: "#fff", boxSizing: "border-box", transition: "border .2s" }}
+                  onFocus={(e) => { e.target.style.borderColor = "#ffb000"; e.target.style.boxShadow = "0 0 0 2px rgba(255,176,0,0.2)"; }}
+                  onBlur={(e) => { e.target.style.borderColor = fieldErrors.password ? "#ff8585" : "rgba(255,255,255,0.12)"; e.target.style.boxShadow = "none"; }} />
+                <button type="button" onClick={() => setShowPassword(!showPassword)}
+                  style={{ position: "absolute", right: "12px", top: "50%", transform: "translateY(-50%)", background: "none", border: "none", cursor: "pointer", color: "rgba(148,163,184,0.7)", padding: "4px", display: "flex" }}>
+                  {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+                </button>
               </div>
+              {fieldErrors.password && <span style={{ color: "#ff8585", fontSize: "12px", fontWeight: 700, marginTop: "4px", display: "block" }}>{fieldErrors.password}</span>}
+            </div>
 
-              <button
-                type="submit"
-                disabled={loading}
-                style={{
-                  width: "100%", borderRadius: "16px", border: "none", background: "#ffb000",
-                  padding: "14px 20px", fontSize: "15px", fontWeight: 900, color: "#080808",
-                  cursor: loading ? "not-allowed" : "pointer", opacity: loading ? 0.6 : 1,
-                  display: "flex", alignItems: "center", justifyContent: "center", gap: "8px",
-                  transition: "all 0.2s",
-                }}
-                onMouseEnter={(e) => { if (!loading) e.target.style.background = "#ffc233"; }}
-                onMouseLeave={(e) => { if (!loading) e.target.style.background = "#ffb000"; }}
-              >
-                {loading ? "Ingresando..." : "Entrar a SportClub"} <ArrowRight className="h-5 w-5" />
+            <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "20px", fontSize: "13px" }}>
+              <label style={{ display: "flex", alignItems: "center", gap: "8px", color: "rgba(203,213,225,0.8)", cursor: "pointer" }}>
+                <input type="checkbox" defaultChecked style={{ accentColor: "#ffb000", width: "15px", height: "15px" }} />
+                Recordarme
+              </label>
+              <a href="#" style={{ fontWeight: 700, color: "#ffb000", textDecoration: "none", fontSize: "13px" }}
+                onClick={(e) => { e.preventDefault(); Swal.fire({ icon: "info", title: "¿Olvidaste tu contraseña?", text: "Contacta al administrador del club para restablecer tu acceso.", confirmButtonColor: "#ffb000" }); }}>
+                ¿Olvidaste tu contraseña?
+              </a>
+            </div>
+
+            <button type="submit" disabled={loading}
+              style={{ width: "100%", height: "50px", borderRadius: "14px", border: "none", background: loading ? "rgba(255,176,0,0.6)" : "linear-gradient(135deg,#ffb000,#ff6500)",
+                color: "#080808", fontSize: "16px", fontWeight: 1000, cursor: loading ? "not-allowed" : "pointer", display: "flex", alignItems: "center", justifyContent: "center", gap: "8px", transition: "all .2s", boxShadow: "0 8px 24px rgba(255,176,0,0.3)" }}>
+              {loading ? "Ingresando..." : "Entrar a SportClub"} {!loading && <ArrowRight size={20} />}
+            </button>
+          </form>
+
+          <div style={{ margin: "20px 0", display: "flex", alignItems: "center", gap: "12px", fontSize: "11px", fontWeight: 700, textTransform: "uppercase", letterSpacing: "3px", color: "rgba(100,116,139,0.8)" }}>
+            <div style={{ height: "1px", flex: 1, background: "rgba(255,255,255,0.08)" }} />
+            Acceso rápido demo
+            <div style={{ height: "1px", flex: 1, background: "rgba(255,255,255,0.08)" }} />
+          </div>
+
+          <div style={{ display: "flex", gap: "8px", flexWrap: "wrap" }}>
+            {demoUsers.map((d) => (
+              <button key={d.label} type="button" onClick={() => fillDemo(d)}
+                style={{ flex: 1, minWidth: "80px", borderRadius: "12px", border: `1px solid ${d.color}44`, background: `${d.color}11`, padding: "10px 8px", color: d.color, fontWeight: 850, cursor: "pointer", fontSize: "13px", textAlign: "center", transition: "all .2s", fontFamily: "inherit" }}
+                onMouseEnter={(e) => { e.target.style.background = `${d.color}22`; e.target.style.borderColor = d.color; }}
+                onMouseLeave={(e) => { e.target.style.background = `${d.color}11`; e.target.style.borderColor = `${d.color}44`; }}>
+                {d.label}
               </button>
-            </form>
+            ))}
+          </div>
+          <p style={{ margin: "10px 0 0", textAlign: "center", fontSize: "11px", color: "rgba(148,163,184,0.6)" }}>
+            Haz clic en un rol para autocompletar credenciales
+          </p>
 
-            <div style={{ margin: "24px 0", display: "flex", alignItems: "center", gap: "12px", fontSize: "11px", fontWeight: 700, textTransform: "uppercase", letterSpacing: "3px", color: "rgba(100,116,139,0.8)" }}>
-              <div style={{ height: "1px", flex: 1, background: "rgba(255,255,255,0.1)" }} />
-              o
-              <div style={{ height: "1px", flex: 1, background: "rgba(255,255,255,0.1)" }} />
-            </div>
+          <p style={{ marginTop: "22px", textAlign: "center", fontSize: "14px", color: "rgba(148,163,184,0.8)" }}>
+            ¿No tienes cuenta?{" "}
+            <Link to="/register" style={{ fontWeight: 900, color: "#ffb000", textDecoration: "none" }}>
+              Regístrate gratis
+            </Link>
+          </p>
 
-            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "10px" }}>
-              <button style={{ borderRadius: "16px", border: "1px solid rgba(255,255,255,0.1)", background: "rgba(255,255,255,0.05)", padding: "12px", color: "white", fontWeight: 600, cursor: "pointer", transition: "all 0.2s" }}
-                onMouseEnter={(e) => e.target.style.background = "rgba(255,255,255,0.1)"}
-                onMouseLeave={(e) => e.target.style.background = "rgba(255,255,255,0.05)"}
-              >Google</button>
-              <button style={{ borderRadius: "16px", border: "1px solid rgba(255,255,255,0.1)", background: "rgba(255,255,255,0.05)", padding: "12px", color: "white", fontWeight: 600, cursor: "pointer", transition: "all 0.2s" }}
-                onMouseEnter={(e) => e.target.style.background = "rgba(255,255,255,0.1)"}
-                onMouseLeave={(e) => e.target.style.background = "rgba(255,255,255,0.05)"}
-              >Microsoft</button>
-            </div>
-
-            <p style={{ marginTop: "24px", textAlign: "center", fontSize: "14px", color: "rgba(148,163,184,0.8)" }}>
-              ¿No tienes cuenta?{" "}
-              <Link to="/register" style={{ fontWeight: 900, color: "#ffb000", textDecoration: "none" }}>
-                Regístrate gratis
-              </Link>
-            </p>
-
-            <div style={{ marginTop: "20px", display: "flex", alignItems: "flex-start", gap: "12px", borderRadius: "16px", border: "1px solid rgba(255,176,0,0.25)", background: "rgba(255,176,0,0.08)", padding: "14px", fontSize: "13px", color: "rgba(203,213,225,0.8)" }}>
-              <ShieldCheck className="h-5 w-5 shrink-0" style={{ color: "#ffb000", marginTop: "1px" }} />
-              <div>
-                <strong style={{ color: "#ffb000" }}>Usuarios demo:</strong><br />
-                admin1@demo.cl / 12345678 &nbsp;|&nbsp; coach1@demo.cl / 12345678 &nbsp;|&nbsp; user1@demo.cl / 12345678
-              </div>
+          <div style={{ marginTop: "16px", display: "flex", alignItems: "flex-start", gap: "10px", borderRadius: "14px", border: "1px solid rgba(255,176,0,0.2)", background: "rgba(255,176,0,0.06)", padding: "12px", fontSize: "12px", color: "rgba(203,213,225,0.7)" }}>
+            <ShieldCheck size={18} style={{ color: "#ffb000", flexShrink: 0, marginTop: "1px" }} />
+            <div>
+              <strong style={{ color: "#ffb000", fontSize: "12px" }}>Usuarios demo:</strong><br />
+              <span style={{ lineHeight: 1.6 }}>
+                <strong style={{ color: "#ffb000" }}>Admin:</strong> admin1@demo.cl · 12345678 &nbsp;|&nbsp;
+                <strong style={{ color: "#60a5fa" }}>Coach:</strong> coach1@demo.cl · 12345678 &nbsp;|&nbsp;
+                <strong style={{ color: "#86efac" }}>User:</strong> user1@demo.cl · 12345678
+              </span>
             </div>
           </div>
-        </section>
+        </div>
       </div>
     </div>
   );
