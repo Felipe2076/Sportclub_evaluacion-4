@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import Swal from "sweetalert2";
-import { Trophy, Mail, Lock, Eye, EyeOff, ArrowRight, ShieldCheck } from "lucide-react";
+import { Mail, Lock, Eye, EyeOff, ArrowRight, ShieldCheck } from "lucide-react";
 
 const demoUsers = [
   { label: "Admin", email: "admin1@demo.cl", password: "12345678", color: "#ffb000" },
@@ -67,9 +67,7 @@ export default function LoginPage() {
 
         <div style={{ borderRadius: "24px", border: "1px solid rgba(255,255,255,0.1)", background: "rgba(2,6,23,0.8)", backdropFilter: "blur(12px)", padding: "36px", boxShadow: "0 24px 80px rgba(0,0,0,0.5)" }}>
           <div style={{ textAlign: "center", marginBottom: "28px" }}>
-            <div style={{ margin: "0 auto 14px", width: "60px", height: "60px", display: "flex", alignItems: "center", justifyContent: "center", borderRadius: "18px", background: "linear-gradient(135deg,#ffb000,#ff6500)", color: "#080808", boxShadow: "0 8px 24px rgba(255,176,0,0.25)" }}>
-              <Trophy size={28} />
-            </div>
+            <img src="/logo.png" style={{ margin: "0 auto 14px", width: "60px", height: "60px", borderRadius: "18px", objectFit: "cover", display: "block", boxShadow: "0 8px 24px rgba(255,176,0,0.25)" }} alt="SportClub" />
             <h1 style={{ fontSize: "24px", fontWeight: 1000, letterSpacing: "-0.5px", margin: 0 }}>Iniciar sesión</h1>
             <p style={{ marginTop: "6px", fontSize: "14px", color: "rgba(148,163,184,0.8)" }}>
               Accede a tu cuenta de SportClub

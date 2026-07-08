@@ -34,11 +34,7 @@ const styles = {
     width: "44px",
     height: "44px",
     borderRadius: "15px",
-    display: "grid",
-    placeItems: "center",
-    background: "linear-gradient(135deg,#ffb000,#ff6500)",
-    color: "#070707",
-    fontWeight: 1000,
+    objectFit: "cover",
     boxShadow: "0 12px 28px rgba(255,122,0,.28)",
   },
   brandTitle: {
@@ -516,7 +512,7 @@ export default function CoachDashboard() {
     <div style={styles.page}>
       <aside style={styles.sidebar}>
         <div style={styles.brand}>
-          <div style={styles.logo}>SC</div>
+          <img src="/logo.png" style={styles.logo} alt="SportClub" />
           <div>
             <h1 style={styles.brandTitle}>SportClub</h1>
             <p style={styles.brandSub}>Panel de coach</p>

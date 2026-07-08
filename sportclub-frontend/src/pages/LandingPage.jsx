@@ -42,12 +42,7 @@ const styles = {
     width: "36px",
     height: "36px",
     borderRadius: "10px",
-    background: "linear-gradient(135deg,#ffb000,#ff6500)",
-    display: "grid",
-    placeItems: "center",
-    color: "#fff",
-    fontWeight: 1000,
-    fontSize: "14px",
+    objectFit: "cover",
   },
   menu: {
     display: "flex",
@@ -472,7 +467,7 @@ export default function LandingPage() {
 
           <header style={styles.nav}>
             <div style={styles.logoWrap}>
-              <div style={styles.logo}>SC</div>
+              <img src="/logo.png" style={styles.logo} alt="SportClub" />
               <span>SPORTCLUB</span>
             </div>
             <nav style={styles.menu}>

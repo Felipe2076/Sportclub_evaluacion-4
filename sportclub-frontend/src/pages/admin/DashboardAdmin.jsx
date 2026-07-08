@@ -8,7 +8,7 @@ const S = {
   page: { minHeight: "100vh", background: "#0b0b0d", color: "#fff", fontFamily: "Inter, ui-sans-serif, system-ui, sans-serif", display: "grid", gridTemplateColumns: "270px 1fr" },
   sidebar: { position: "sticky", top: 0, height: "100vh", background: "#050505", borderRight: "1px solid rgba(255,255,255,.10)", padding: "24px", boxSizing: "border-box", overflowY: "auto" },
   brand: { display: "flex", alignItems: "center", gap: "12px", marginBottom: "26px" },
-  logo: { width: "44px", height: "44px", borderRadius: "15px", display: "grid", placeItems: "center", fontWeight: 1000, color: "#070707", background: "linear-gradient(135deg,#ffb000,#ff6500)", boxShadow: "0 12px 28px rgba(255,122,0,.28)" },
+  logo: { width: "44px", height: "44px", borderRadius: "15px", objectFit: "cover", boxShadow: "0 12px 28px rgba(255,122,0,.28)" },
   brandTitle: { margin: 0, fontSize: "17px", fontWeight: 1000, letterSpacing: ".5px" },
   brandSub: { margin: "3px 0 0", fontSize: "12px", color: "rgba(255,255,255,.50)" },
   navLabel: { margin: "22px 0 10px", fontSize: "11px", letterSpacing: "2px", textTransform: "uppercase", color: "rgba(255,255,255,.42)", fontWeight: 900 },
@@ -229,7 +229,7 @@ export default function DashboardAdmin() {
     <div style={S.page}>
       <aside style={S.sidebar}>
         <div style={S.brand}>
-          <div style={S.logo}>SC</div>
+          <img src="/logo.png" style={S.logo} alt="SportClub" />
           <div><h1 style={S.brandTitle}>SportClub</h1><p style={S.brandSub}>Admin panel</p></div>
         </div>
         <p style={S.navLabel}>Administración</p>

@@ -52,12 +52,9 @@ body {
   border-bottom: 1px solid var(--border-color);
 }
 
-.sidebar-logo h2 {
-  font-size: 20px;
-  font-weight: 900;
-  background: linear-gradient(135deg, var(--orange), var(--orange-dark));
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+.sidebar-logo-img {
+  width: 40px;
+  border-radius: 10px;
 }
 
 .sidebar-nav {

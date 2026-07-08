@@ -23,7 +23,7 @@ export default function Sidebar() {
   return (
     <aside className="sidebar">
       <div className="sidebar-logo">
-        <h2>SportClub</h2>
+        <img src="/logo.png" className="sidebar-logo-img" alt="SportClub" />
       </div>
       <nav className="sidebar-nav">
         {links.map((link) => (

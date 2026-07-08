@@ -90,11 +90,7 @@ const styles = {
     width: "42px",
     height: "42px",
     borderRadius: "14px",
-    background: "linear-gradient(135deg,#ffb000,#ff6500)",
-    color: "#070707",
-    display: "grid",
-    placeItems: "center",
-    fontWeight: 1000,
+    objectFit: "cover",
   },
   imageWrap: {
     position: "relative",
@@ -420,7 +416,7 @@ export default function RegisterPage() {
           <aside style={styles.left}>
             <div>
               <div style={styles.logoRow}>
-                <div style={styles.logo}>SC</div>
+                <img src="/logo.png" style={styles.logo} alt="SportClub" />
                 <span>SPORTCLUB</span>
               </div>
 
