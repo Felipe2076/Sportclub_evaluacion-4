@@ -55,12 +55,12 @@ const styles = {
 };
 
 const menuItems = [
-  { id: "inicio", icon: "🏠", label: "Inicio" },
-  { id: "clases", icon: "🏋️", label: "Clases disponibles" },
-  { id: "deportes", icon: "⚽", label: "Deportes" },
-  { id: "salas", icon: "🏛️", label: "Salas" },
-  { id: "reservas", icon: "📅", label: "Mis reservas" },
-  { id: "perfil", icon: "👤", label: "Perfil" },
+  { id: "inicio", label: "Inicio" },
+  { id: "clases", label: "Clases disponibles" },
+  { id: "deportes", label: "Deportes" },
+  { id: "salas", label: "Salas" },
+  { id: "reservas", label: "Mis reservas" },
+  { id: "perfil", label: "Perfil" },
 ];
 
 const dayNames = { 1: 'Lunes', 2: 'Martes', 3: 'Miércoles', 4: 'Jueves', 5: 'Viernes', 6: 'Sábado', 7: 'Domingo' };
@@ -158,7 +158,7 @@ export default function UserDashboard() {
           <div><h1 style={styles.brandTitle}>SportClub</h1><p style={styles.brandSub}>Panel de usuario</p></div>
         </div>
         <div style={styles.profileCard}>
-          <div style={styles.avatar}>🏃</div>
+          <div style={styles.avatar}>👤</div>
           <h2 style={{ margin: 0, fontSize: "18px", fontWeight: 1000 }}>{user?.full_name || 'Usuario'}</h2>
           <p style={{ ...styles.muted, margin: "5px 0 0" }}>{user?.email || ''}</p>
           <div style={{ marginTop: "12px" }}><span style={styles.badge}>{user?.role || 'user'}</span></div>
@@ -167,12 +167,12 @@ export default function UserDashboard() {
         {menuItems.map((item) => (
           <button key={item.id} type="button" onClick={() => { setActiveSection(item.id); setSearch(''); }}
             style={{ ...styles.navButton, ...(activeSection === item.id ? styles.navButtonActive : {}) }}>
-            <span>{item.icon}</span><span>{item.label}</span>
+            <span>{item.label}</span>
           </button>
         ))}
         <button type="button" onClick={() => { localStorage.removeItem('token'); localStorage.removeItem('user'); navigate('/login'); }}
           style={{ width: '100%', border: '1px solid rgba(255,99,99,.2)', borderRadius: '16px', padding: '13px 14px', background: 'rgba(255,99,99,.08)', color: '#ff8b8b', display: 'flex', alignItems: 'center', gap: '11px', cursor: 'pointer', fontWeight: 850, marginTop: '16px', textAlign: 'left', fontSize: '13px' }}>
-          <span>🚪</span><span>Cerrar sesión</span>
+          <span>Cerrar sesión</span>
         </button>
       </aside>
 
@@ -191,13 +191,12 @@ export default function UserDashboard() {
           <>
             <section style={styles.statsGrid}>
               {[
-                { icon: "🏋️", value: classes.length, label: "Clases disponibles" },
-                { icon: "⚽", value: sports.length, label: "Deportes" },
-                { icon: "🏛️", value: rooms.length, label: "Salas" },
-                { icon: "✅", value: activeReservations.length, label: "Reservas activas" },
+                { value: classes.length, label: "Clases disponibles" },
+                { value: sports.length, label: "Deportes" },
+                { value: rooms.length, label: "Salas" },
+                { value: activeReservations.length, label: "Reservas activas" },
               ].map((stat) => (
                 <article key={stat.label} style={styles.statCard}>
-                  <div style={styles.statIcon}>{stat.icon}</div>
                   <h3 style={styles.statValue}>{stat.value}</h3>
                   <p style={styles.statLabel}>{stat.label}</p>
                 </article>
@@ -218,10 +217,10 @@ export default function UserDashboard() {
                 <div style={styles.panelHeader}><h3 style={styles.panelTitle}>Resumen rápido</h3></div>
                 <div style={styles.panelBody}>
                   <div style={styles.list}>
-                    <div style={styles.listItem}>📌 <strong>{activeReservations.length}</strong> reserva(s) activa(s).</div>
-                    <div style={styles.listItem}>⚽ <strong>{sports.length}</strong> deporte(s) disponible(s).</div>
-                    <div style={styles.listItem}>🏛️ <strong>{rooms.length}</strong> sala(s) disponible(s).</div>
-                    <div style={styles.listItem}>🏋️ <strong>{classes.length}</strong> clase(s) para elegir.</div>
+                    <div style={styles.listItem}><strong>{activeReservations.length}</strong> reserva(s) activa(s).</div>
+                    <div style={styles.listItem}><strong>{sports.length}</strong> deporte(s) disponible(s).</div>
+                    <div style={styles.listItem}><strong>{rooms.length}</strong> sala(s) disponible(s).</div>
+                    <div style={styles.listItem}><strong>{classes.length}</strong> clase(s) para elegir.</div>
                   </div>
                 </div>
               </div>

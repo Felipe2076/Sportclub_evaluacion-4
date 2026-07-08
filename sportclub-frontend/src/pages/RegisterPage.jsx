@@ -433,9 +433,9 @@ export default function RegisterPage() {
             </div>
 
             <div style={styles.benefits}>
-              <div style={styles.benefit}><span style={styles.check}>✓</span> Reserva clases con coaches certificados</div>
-              <div style={styles.benefit}><span style={styles.check}>✓</span> Horarios flexibles de 7:00 a 22:00 hrs</div>
-              <div style={styles.benefit}><span style={styles.check}>✓</span> Canchas, salas, piscina y más instalaciones</div>
+              <div style={styles.benefit}>Reserva clases con coaches certificados</div>
+              <div style={styles.benefit}>Horarios flexibles de 7:00 a 22:00 hrs</div>
+              <div style={styles.benefit}>Canchas, salas, piscina y más instalaciones</div>
             </div>
           </aside>
 
@@ -466,7 +466,7 @@ export default function RegisterPage() {
                     <div style={styles.passwordBox}>
                       <input id="password" name="password" type={showPassword ? "text" : "password"} value={form.password} onChange={handleChange} style={{ ...styles.input, paddingRight: "52px" }} placeholder="Mínimo 6 caracteres" autoComplete="new-password" />
                       <button type="button" style={styles.eyeBtn} onClick={() => setShowPassword(!showPassword)}>
-                        {showPassword ? "🙈" : "👁"}
+                        {showPassword ? "Ocultar" : "Mostrar"}
                       </button>
                     </div>
                     <div style={{ height: "6px", borderRadius: "999px", background: "rgba(255,255,255,.10)", overflow: "hidden" }}>
@@ -481,7 +481,7 @@ export default function RegisterPage() {
                     <div style={styles.passwordBox}>
                       <input id="confirmPassword" name="confirmPassword" type={showConfirmPassword ? "text" : "password"} value={form.confirmPassword} onChange={handleChange} style={{ ...styles.input, paddingRight: "52px" }} placeholder="Repite tu contraseña" autoComplete="new-password" />
                       <button type="button" style={styles.eyeBtn} onClick={() => setShowConfirmPassword(!showConfirmPassword)}>
-                        {showConfirmPassword ? "🙈" : "👁"}
+                        {showConfirmPassword ? "Ocultar" : "Mostrar"}
                       </button>
                     </div>
                     {errors.confirmPassword && <span style={styles.error}>{errors.confirmPassword}</span>}
@@ -527,7 +527,7 @@ export default function RegisterPage() {
 
               {registeredUser && (
                 <div style={styles.successBox}>
-                  ✅ {registeredUser.name} — Registro exitoso. Redirigiendo al inicio de sesión...
+                  {registeredUser.name} — Registro exitoso. Redirigiendo al inicio de sesión...
                 </div>
               )}
 

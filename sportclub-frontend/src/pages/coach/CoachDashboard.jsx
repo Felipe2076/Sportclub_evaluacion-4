@@ -374,11 +374,11 @@ const styles = {
 };
 
 const menuItems = [
-  { id: "inicio", icon: "🏠", label: "Inicio" },
-  { id: "clases", icon: "🏋️", label: "Mis clases" },
-  { id: "horarios", icon: "📅", label: "Horarios" },
-  { id: "salas", icon: "🏛️", label: "Salas" },
-  { id: "perfil", icon: "👤", label: "Perfil" },
+  { id: "inicio", label: "Inicio" },
+  { id: "clases", label: "Mis clases" },
+  { id: "horarios", label: "Horarios" },
+  { id: "salas", label: "Salas" },
+  { id: "perfil", label: "Perfil" },
 ];
 
 const dayNames = { 1: 'Lunes', 2: 'Martes', 3: 'Miércoles', 4: 'Jueves', 5: 'Viernes', 6: 'Sábado', 7: 'Domingo' };
@@ -468,10 +468,10 @@ export default function CoachDashboard() {
   }, [rooms, search]);
 
   const stats = [
-    { icon: "🏋️", value: classes.length, label: "Clases asignadas" },
-    { icon: "📅", value: schedules.length, label: "Horarios" },
-    { icon: "🏛️", value: rooms.length, label: "Salas asignadas" },
-    { icon: "👤", value: user?.full_name?.split(' ')[0] || 'Coach', label: "Bienvenido" },
+    { value: classes.length, label: "Clases asignadas" },
+    { value: schedules.length, label: "Horarios" },
+    { value: rooms.length, label: "Salas asignadas" },
+    { value: user?.full_name?.split(' ')[0] || 'Coach', label: "Bienvenido" },
   ];
 
   const handleProfileUpdate = async (e) => {
@@ -520,7 +520,7 @@ export default function CoachDashboard() {
         </div>
 
         <div style={styles.coachCard}>
-          <div style={styles.avatar}>🏋️</div>
+          <div style={styles.avatar}>👤</div>
           <h2 style={{ margin: 0, fontSize: "18px", fontWeight: 1000 }}>{user?.full_name || 'Coach'}</h2>
           <p style={{ ...styles.muted, margin: "5px 0 0" }}>{user?.email || ''}</p>
           <div style={{ marginTop: "12px" }}>
@@ -536,13 +536,12 @@ export default function CoachDashboard() {
             onClick={() => setActiveSection(item.id)}
             style={{ ...styles.navButton, ...(activeSection === item.id ? styles.navButtonActive : {}) }}
           >
-            <span>{item.icon}</span>
             <span>{item.label}</span>
           </button>
         ))}
         <button type="button" onClick={() => { localStorage.removeItem('token'); localStorage.removeItem('user'); navigate('/login'); }}
           style={{ width: '100%', border: '1px solid rgba(255,99,99,.2)', borderRadius: '16px', padding: '13px 14px', background: 'rgba(255,99,99,.08)', color: '#ff8b8b', display: 'flex', alignItems: 'center', gap: '11px', cursor: 'pointer', fontWeight: 850, marginTop: '16px', textAlign: 'left', fontSize: '13px' }}>
-          <span>🚪</span><span>Cerrar sesión</span>
+          <span>Cerrar sesión</span>
         </button>
       </aside>
 
@@ -565,7 +564,6 @@ export default function CoachDashboard() {
         <section style={styles.statsGrid}>
           {stats.map((stat) => (
             <article key={stat.label} style={styles.statCard}>
-              <div style={styles.statIcon}>{stat.icon}</div>
               <h3 style={styles.statValue}>{stat.value}</h3>
               <p style={styles.statLabel}>{stat.label}</p>
             </article>
@@ -593,10 +591,10 @@ export default function CoachDashboard() {
               <div style={styles.panelHeader}><h3 style={styles.panelTitle}>Resumen</h3></div>
               <div style={styles.panelBody}>
                 <div style={styles.list}>
-                  <div style={styles.listItem}>🏋️ Tienes <strong>{classes.length}</strong> clase(s) asignada(s).</div>
-                  <div style={styles.listItem}>📅 <strong>{schedules.length}</strong> horario(s) programado(s).</div>
-                  <div style={styles.listItem}>🏛️ <strong>{rooms.length}</strong> sala(s) asignada(s).</div>
-                  <div style={styles.listItem}>📈 Sigue así, coach.</div>
+                  <div style={styles.listItem}>Tienes <strong>{classes.length}</strong> clase(s) asignada(s).</div>
+                  <div style={styles.listItem}><strong>{schedules.length}</strong> horario(s) programado(s).</div>
+                  <div style={styles.listItem}><strong>{rooms.length}</strong> sala(s) asignada(s).</div>
+                  <div style={styles.listItem}>Sigue así, coach.</div>
                 </div>
               </div>
             </div>
@@ -813,7 +811,7 @@ function ClassCard({ item }) {
   return (
     <article style={styles.itemCard}>
       <div style={styles.cardTop}>
-        <div style={styles.sportIcon}>🏋️</div>
+        <div style={styles.sportIcon}></div>
         <span style={item.status ? styles.successBadge : styles.warningBadge}>
           {item.status ? 'Activa' : 'Inactiva'}
         </span>

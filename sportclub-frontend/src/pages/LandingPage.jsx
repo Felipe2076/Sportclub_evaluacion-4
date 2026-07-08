@@ -389,12 +389,12 @@ const styles = {
 const categories = ["Todo", "Fútbol", "Yoga", "CrossFit", "Natación", "Spinning", "Pilates", "Boxeo"];
 
 const sports = [
-  { icon: "⚽", title: "Fútbol", text: "Partidos, táctica, formación y tabla de posiciones." },
-  { icon: "🧘", title: "Yoga", text: "Flexibilidad, equilibrio, respiración y bienestar." },
-  { icon: "💪", title: "CrossFit", text: "Fuerza, resistencia, WODs y retos diarios." },
-  { icon: "🏊", title: "Natación", text: "Técnica, estilos, entrenamiento y competencias." },
-  { icon: "🚴", title: "Spinning", text: "Ciclismo indoor, resistencia cardiovascular." },
-  { icon: "🥊", title: "Boxeo", text: "Coordinación, golpeo, defensa y condición física." },
+  { title: "Fútbol", text: "Partidos, táctica, formación y tabla de posiciones." },
+  { title: "Yoga", text: "Flexibilidad, equilibrio, respiración y bienestar." },
+  { title: "CrossFit", text: "Fuerza, resistencia, WODs y retos diarios." },
+  { title: "Natación", text: "Técnica, estilos, entrenamiento y competencias." },
+  { title: "Spinning", text: "Ciclismo indoor, resistencia cardiovascular." },
+  { title: "Boxeo", text: "Coordinación, golpeo, defensa y condición física." },
 ];
 
 const matches = [
@@ -527,7 +527,6 @@ export default function LandingPage() {
               <div style={styles.sportsGrid}>
                 {sports.map((sport) => (
                   <div key={sport.title} style={styles.sportCard}>
-                    <div style={styles.icon}>{sport.icon}</div>
                     <h3 style={styles.cardTitle}>{sport.title}</h3>
                     <p style={styles.cardText}>{sport.text}</p>
                   </div>

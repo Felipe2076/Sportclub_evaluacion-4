@@ -52,13 +52,13 @@ function badgeStyle(value) {
 };
 
 const sections = [
-  { id: "overview", icon: "📊", label: "Resumen" },
-  { id: "users", icon: "👥", label: "Usuarios" },
-  { id: "sports", icon: "⚽", label: "Deportes" },
-  { id: "rooms", icon: "🏠", label: "Salas" },
-  { id: "sportrooms", icon: "🔗", label: "Asignaciones" },
-  { id: "schedules", icon: "🕐", label: "Horarios" },
-  { id: "reservations", icon: "📅", label: "Reservas" },
+  { id: "overview", label: "Resumen" },
+  { id: "users", label: "Usuarios" },
+  { id: "sports", label: "Deportes" },
+  { id: "rooms", label: "Salas" },
+  { id: "sportrooms", label: "Asignaciones" },
+  { id: "schedules", label: "Horarios" },
+  { id: "reservations", label: "Reservas" },
 ];
 
 export default function DashboardAdmin() {
@@ -100,12 +100,12 @@ export default function DashboardAdmin() {
   const showToast = (msg) => { setToast(msg); setTimeout(() => setToast(""), 2600); };
 
   const stats = useMemo(() => [
-    { icon: "👥", value: users.length, label: "Usuarios" },
-    { icon: "⚽", value: sports.length, label: "Deportes" },
-    { icon: "🏠", value: rooms.length, label: "Salas" },
-    { icon: "🔗", value: sportrooms.length, label: "Asignaciones" },
-    { icon: "🕐", value: schedules.length, label: "Horarios" },
-    { icon: "📅", value: reservations.filter((r) => r.status === "active").length, label: "Reservas activas" },
+    { value: users.length, label: "Usuarios" },
+    { value: sports.length, label: "Deportes" },
+    { value: rooms.length, label: "Salas" },
+    { value: sportrooms.length, label: "Asignaciones" },
+    { value: schedules.length, label: "Horarios" },
+    { value: reservations.filter((r) => r.status === "active").length, label: "Reservas activas" },
   ], [users, sports, rooms, sportrooms, schedules, reservations]);
 
   const q = search.trim().toLowerCase();
@@ -236,11 +236,11 @@ export default function DashboardAdmin() {
         {sections.map((item) => (
           <button key={item.id} type="button" onClick={() => { setSection(item.id); setSearch(""); }}
             style={{ ...S.navBtn, ...(section === item.id ? S.navBtnAct : {}) }}>
-            <span>{item.icon}</span><span>{item.label}</span>
+            <span>{item.label}</span>
           </button>
         ))}
         <button type="button" onClick={handleLogout} style={S.logoutBtn}>
-          <span>🚪</span><span>Cerrar sesión</span>
+          <span>Cerrar sesión</span>
         </button>
       </aside>
 
@@ -255,14 +255,14 @@ export default function DashboardAdmin() {
           )}
         </header>
 
-        {toast && <div style={{ marginBottom: "16px", borderRadius: "16px", padding: "12px 16px", background: "rgba(34,197,94,.12)", border: "1px solid rgba(34,197,94,.26)", color: "#86efac", fontWeight: 900, fontSize: "14px" }}>✅ {toast}</div>}
+        {toast && <div style={{ marginBottom: "16px", borderRadius: "16px", padding: "12px 16px", background: "rgba(34,197,94,.12)", border: "1px solid rgba(34,197,94,.26)", color: "#86efac", fontWeight: 900, fontSize: "14px" }}>{toast}</div>}
 
         {section === "overview" && (
           <>
             <div style={S.statsGrid}>
               {stats.map((s) => (
                 <article key={s.label} style={S.statCard}>
-                  <div style={S.statIcon}>{s.icon}</div><h3 style={S.statValue}>{s.value}</h3><p style={S.statLabel}>{s.label}</p>
+                  <h3 style={S.statValue}>{s.value}</h3><p style={S.statLabel}>{s.label}</p>
                 </article>
               ))}
             </div>
@@ -271,11 +271,11 @@ export default function DashboardAdmin() {
                 <div style={S.panelHeader}><h3 style={S.panelTitle}>Actividad reciente</h3><span style={badgeStyle("admin")}>Admin</span></div>
                 <div style={S.panelBody}>
                   <div style={{ display: "grid", gap: "10px" }}>
-                    <div style={{ borderRadius: "16px", padding: "14px", background: "rgba(255,255,255,.055)", border: "1px solid rgba(255,255,255,.08)" }}>👥 {users.length} usuarios registrados</div>
-                    <div style={{ borderRadius: "16px", padding: "14px", background: "rgba(255,255,255,.055)", border: "1px solid rgba(255,255,255,.08)" }}>⚽ {sports.length} deportes disponibles</div>
-                    <div style={{ borderRadius: "16px", padding: "14px", background: "rgba(255,255,255,.055)", border: "1px solid rgba(255,255,255,.08)" }}>🏠 {rooms.length} salas equipadas</div>
-                    <div style={{ borderRadius: "16px", padding: "14px", background: "rgba(255,255,255,.055)", border: "1px solid rgba(255,255,255,.08)" }}>🕐 {schedules.length} horarios de clases</div>
-                    <div style={{ borderRadius: "16px", padding: "14px", background: "rgba(255,255,255,.055)", border: "1px solid rgba(255,255,255,.08)" }}>📅 {reservations.filter((r) => r.status === "active").length} reservas activas</div>
+                    <div style={{ borderRadius: "16px", padding: "14px", background: "rgba(255,255,255,.055)", border: "1px solid rgba(255,255,255,.08)" }}>{users.length} usuarios registrados</div>
+                    <div style={{ borderRadius: "16px", padding: "14px", background: "rgba(255,255,255,.055)", border: "1px solid rgba(255,255,255,.08)" }}>{sports.length} deportes disponibles</div>
+                    <div style={{ borderRadius: "16px", padding: "14px", background: "rgba(255,255,255,.055)", border: "1px solid rgba(255,255,255,.08)" }}>{rooms.length} salas equipadas</div>
+                    <div style={{ borderRadius: "16px", padding: "14px", background: "rgba(255,255,255,.055)", border: "1px solid rgba(255,255,255,.08)" }}>{schedules.length} horarios de clases</div>
+                    <div style={{ borderRadius: "16px", padding: "14px", background: "rgba(255,255,255,.055)", border: "1px solid rgba(255,255,255,.08)" }}>{reservations.filter((r) => r.status === "active").length} reservas activas</div>
                   </div>
                 </div>
               </div>
