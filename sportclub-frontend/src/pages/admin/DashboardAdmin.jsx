@@ -220,7 +220,7 @@ export default function DashboardAdmin() {
   const handleLogout = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("user");
-    navigate("/login");
+    navigate("/login", { replace: true });
   };
 
   const sectionTitle = sections.find((s) => s.id === section)?.label || "";

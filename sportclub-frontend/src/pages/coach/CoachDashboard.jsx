@@ -539,7 +539,7 @@ export default function CoachDashboard() {
             <span>{item.label}</span>
           </button>
         ))}
-        <button type="button" onClick={() => { localStorage.removeItem('token'); localStorage.removeItem('user'); navigate('/login'); }}
+        <button type="button" onClick={() => { localStorage.removeItem('token'); localStorage.removeItem('user'); navigate('/login', { replace: true }); }}
           style={{ width: '100%', border: '1px solid rgba(255,99,99,.2)', borderRadius: '16px', padding: '13px 14px', background: 'rgba(255,99,99,.08)', color: '#ff8b8b', display: 'flex', alignItems: 'center', gap: '11px', cursor: 'pointer', fontWeight: 850, marginTop: '16px', textAlign: 'left', fontSize: '13px' }}>
           <span>Cerrar sesión</span>
         </button>

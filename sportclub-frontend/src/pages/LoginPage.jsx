@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import Swal from "sweetalert2";
@@ -16,8 +16,14 @@ export default function LoginPage() {
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [fieldErrors, setFieldErrors] = useState({});
-  const { login } = useAuth();
+  const { user, login } = useAuth();
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!user) return;
+    const route = user.role === 'admin' ? '/dashboard' : user.role === 'coach' ? '/coach/dashboard' : '/user/dashboard';
+    navigate(route, { replace: true });
+  }, [user, navigate]);
 
   const fillDemo = (e) => {
     setEmail(e.email);
@@ -45,7 +51,7 @@ export default function LoginPage() {
       const route = user.role === 'admin' ? '/dashboard'
         : user.role === 'coach' ? '/coach/dashboard'
         : '/user/dashboard';
-      navigate(route);
+      navigate(route, { replace: true });
     } catch (err) {
       const msg = err.response?.data?.message || err.response?.data?.error || "Credenciales inválidas";
       Swal.fire({ icon: "error", title: "Error de acceso", text: msg, confirmButtonColor: "#ffb000" });

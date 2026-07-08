@@ -389,7 +389,7 @@ export default function RegisterPage() {
       await register({ full_name: form.full_name, email: form.email, password: form.password });
       setRegisteredUser({ name: form.full_name, sport: form.sport, level: form.level });
       setForm(initialForm);
-      setTimeout(() => navigate("/login"), 2000);
+      setTimeout(() => navigate("/login", { replace: true }), 2000);
     } catch (err) {
       const msg = err.response?.data?.message || err.response?.data?.error || "No se pudo completar el registro";
       Swal.fire({ icon: "error", title: "Error", text: msg });
