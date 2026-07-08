@@ -5,7 +5,7 @@ import { register } from "../services/authService";
 const styles = {
   page: {
     minHeight: "100vh",
-    background: "#020617",
+    background: "#0b0b0d",
     color: "#ffffff",
     fontFamily: "Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif",
     padding: "42px 18px",
@@ -34,7 +34,7 @@ const styles = {
     width: "350px",
     height: "350px",
     borderRadius: "54px",
-    background: "linear-gradient(135deg,#a3e635,#84cc16)",
+    background: "linear-gradient(135deg,#ffb000,#ff6500)",
     transform: "rotate(42deg)",
     opacity: 0.3,
   },
@@ -45,7 +45,7 @@ const styles = {
     width: "210px",
     height: "7px",
     borderRadius: "20px",
-    background: "linear-gradient(90deg,transparent,#a3e635)",
+    background: "linear-gradient(90deg,transparent,#ffb000)",
     transform: "rotate(62deg)",
   },
   lineB: {
@@ -55,7 +55,7 @@ const styles = {
     width: "190px",
     height: "7px",
     borderRadius: "20px",
-    background: "#84cc16",
+    background: "#ff6500",
     transform: "rotate(-38deg)",
     opacity: 0.7,
   },
@@ -65,7 +65,7 @@ const styles = {
     bottom: "0",
     width: "190px",
     height: "110px",
-    backgroundImage: "radial-gradient(rgba(163,230,53,.4) 1.5px, transparent 1.5px)",
+    backgroundImage: "radial-gradient(rgba(255,176,0,0.4) 1.5px, transparent 1.5px)",
     backgroundSize: "14px 14px",
     opacity: 0.6,
   },
@@ -89,8 +89,8 @@ const styles = {
     width: "42px",
     height: "42px",
     borderRadius: "14px",
-    background: "linear-gradient(135deg,#a3e635,#84cc16)",
-    color: "#020617",
+    background: "linear-gradient(135deg,#ffb000,#ff6500)",
+    color: "#070707",
     display: "grid",
     placeItems: "center",
     fontWeight: 1000,
@@ -103,7 +103,7 @@ const styles = {
     overflow: "hidden",
     border: "1px solid rgba(255,255,255,.10)",
     boxShadow: "0 26px 70px rgba(0,0,0,.50)",
-    background: "linear-gradient(135deg, rgba(163,230,53,.08), rgba(132,204,22,.04))",
+    background: "linear-gradient(135deg, rgba(255,176,0,.08), rgba(255,101,0,.04))",
     display: "flex",
     alignItems: "flex-end",
   },
@@ -121,7 +121,7 @@ const styles = {
   kicker: {
     display: "inline-block",
     marginBottom: "12px",
-    color: "#a3e635",
+    color: "#ffb000",
     fontSize: "12px",
     fontWeight: 950,
     letterSpacing: "2.2px",
@@ -163,8 +163,8 @@ const styles = {
     width: "22px",
     height: "22px",
     borderRadius: "50%",
-    background: "linear-gradient(135deg,#a3e635,#84cc16)",
-    color: "#020617",
+    background: "linear-gradient(135deg,#ffb000,#ff6500)",
+    color: "#070707",
     display: "grid",
     placeItems: "center",
     fontWeight: 1000,
@@ -188,9 +188,9 @@ const styles = {
   },
   tag: {
     display: "inline-block",
-    background: "rgba(163,230,53,.15)",
-    color: "#a3e635",
-    border: "1px solid rgba(163,230,53,.25)",
+    background: "rgba(255,176,0,0.15)",
+    color: "#ffb000",
+    border: "1px solid rgba(255,176,0,0.25)",
     borderRadius: "999px",
     padding: "7px 11px",
     fontSize: "11px",
@@ -291,12 +291,12 @@ const styles = {
   primaryBtn: {
     border: "0",
     borderRadius: "999px",
-    background: "linear-gradient(135deg,#a3e635,#84cc16)",
-    color: "#020617",
+    background: "linear-gradient(135deg,#ffb000,#ff6500)",
+    color: "#080808",
     padding: "14px 22px",
     fontWeight: 1000,
     cursor: "pointer",
-    boxShadow: "0 14px 28px rgba(163,230,53,.28)",
+    boxShadow: "0 14px 28px rgba(255,176,0,0.28)",
     fontSize: "14px",
   },
   secondaryBtn: {
@@ -312,9 +312,9 @@ const styles = {
   successBox: {
     marginTop: "18px",
     borderRadius: "18px",
-    background: "rgba(163,230,53,.12)",
-    border: "1px solid rgba(163,230,53,.28)",
-    color: "#a3e635",
+    background: "rgba(255,176,0,0.12)",
+    border: "1px solid rgba(255,176,0,0.28)",
+    color: "#ffb000",
     padding: "14px 16px",
     fontWeight: 850,
     lineHeight: 1.5,
@@ -326,7 +326,7 @@ const styles = {
     textAlign: "center",
   },
   loginLink: {
-    color: "#a3e635",
+    color: "#ffb000",
     fontWeight: 950,
     textDecoration: "none",
   },
@@ -360,7 +360,7 @@ export default function RegisterPage() {
 
     if (!form.password) return { text: "Sin contraseña", color: "rgba(255,255,255,.35)", width: "0%" };
     if (points <= 1) return { text: "Débil", color: "#ff8585", width: "33%" };
-    if (points <= 3) return { text: "Media", color: "#a3e635", width: "66%" };
+    if (points <= 3) return { text: "Media", color: "#ffb000", width: "66%" };
     return { text: "Fuerte", color: "#86efac", width: "100%" };
   }, [form.password]);
 
@@ -514,7 +514,7 @@ export default function RegisterPage() {
                 </div>
 
                 <label style={styles.acceptRow}>
-                  <input name="accept" type="checkbox" checked={form.accept} onChange={handleChange} style={{ accentColor: "#a3e635", width: "16px", height: "16px", marginTop: "2px" }} />
+                  <input name="accept" type="checkbox" checked={form.accept} onChange={handleChange} style={{ accentColor: "#ffb000", width: "16px", height: "16px", marginTop: "2px" }} />
                   <span>Acepto recibir información deportiva, novedades y recomendaciones de SportClub.</span>
                 </label>
                 {errors.accept && <span style={styles.error}>{errors.accept}</span>}

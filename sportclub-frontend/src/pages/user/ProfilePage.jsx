@@ -11,14 +11,20 @@ export default function ProfilePage() {
     birth_date: user?.birth_date || '',
   });
   const [passForm, setPassForm] = useState({ current_password: '', new_password: '', confirm_password: '' });
+  const [submitting, setSubmitting] = useState(false);
 
   const handleProfileUpdate = async (e) => {
     e.preventDefault();
+    setSubmitting(true);
     try {
       await updateProfile(form);
       await loadUser();
       Swal.fire({ icon: 'success', title: 'Perfil actualizado', timer: 1500, showConfirmButton: false });
-    } catch { /* handled */ }
+    } catch {
+      Swal.fire({ icon: 'error', title: 'Error', text: 'No se pudo actualizar el perfil' });
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   const handlePasswordChange = async (e) => {
@@ -27,11 +33,16 @@ export default function ProfilePage() {
       Swal.fire({ icon: 'error', title: 'Error', text: 'Las contraseñas no coinciden' });
       return;
     }
+    setSubmitting(true);
     try {
       await changePassword(passForm.current_password, passForm.new_password, passForm.confirm_password);
       Swal.fire({ icon: 'success', title: 'Contraseña actualizada', timer: 1500, showConfirmButton: false });
       setPassForm({ current_password: '', new_password: '', confirm_password: '' });
-    } catch { /* handled */ }
+    } catch {
+      Swal.fire({ icon: 'error', title: 'Error', text: 'No se pudo cambiar la contraseña' });
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   return (
@@ -52,7 +63,7 @@ export default function ProfilePage() {
             <label>Fecha de nacimiento</label>
             <input type="date" value={form.birth_date} onChange={(e) => setForm({ ...form, birth_date: e.target.value })} />
           </div>
-          <button className="btn btn-primary">Actualizar Perfil</button>
+          <button className="btn btn-primary" disabled={submitting}>{submitting ? 'Guardando...' : 'Actualizar Perfil'}</button>
         </form>
       </div>
 
@@ -71,7 +82,7 @@ export default function ProfilePage() {
             <label>Confirmar nueva contraseña</label>
             <input type="password" value={passForm.confirm_password} onChange={(e) => setPassForm({ ...passForm, confirm_password: e.target.value })} required />
           </div>
-          <button className="btn btn-primary">Cambiar Contraseña</button>
+          <button className="btn btn-primary" disabled={submitting}>{submitting ? 'Cambiando...' : 'Cambiar Contraseña'}</button>
         </form>
       </div>
     </div>

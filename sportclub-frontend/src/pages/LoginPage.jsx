@@ -31,7 +31,7 @@ export default function LoginPage() {
     <div className="min-h-screen bg-slate-950 px-4 py-10 text-white sm:px-6 lg:px-8" style={{ fontFamily: "Inter, ui-sans-serif, system-ui, sans-serif" }}>
       <div style={{
         position: "fixed", inset: 0, zIndex: -10,
-        background: "radial-gradient(circle at top left,rgba(163,230,53,0.22),transparent 35%),radial-gradient(circle at bottom right,rgba(59,130,246,0.18),transparent 35%)"
+        background: "radial-gradient(circle at top left,rgba(255,176,0,0.22),transparent 35%),radial-gradient(circle at bottom right,rgba(59,130,246,0.18),transparent 35%)"
       }} />
 
       <div className="mx-auto grid max-w-6xl overflow-hidden rounded-[2rem] border border-white/10 bg-white/5 shadow-2xl backdrop-blur lg:grid-cols-2">
@@ -41,9 +41,9 @@ export default function LoginPage() {
             alt="Personas practicando deportes"
             style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover" }}
           />
-          <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to top, #020617, rgba(2,6,23,0.65), rgba(2,6,23,0.2))" }} />
+          <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to top, #0b0b0d, rgba(11,11,13,0.65), rgba(11,11,13,0.2))" }} />
           <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, padding: "40px" }}>
-            <div style={{ marginBottom: "20px", display: "inline-flex", alignItems: "center", gap: "8px", borderRadius: "999px", background: "#a3e635", padding: "8px 16px", fontSize: "13px", fontWeight: 900, color: "#020617" }}>
+              <div style={{ marginBottom: "20px", display: "inline-flex", alignItems: "center", gap: "8px", borderRadius: "999px", background: "#ffb000", padding: "8px 16px", fontSize: "13px", fontWeight: 900, color: "#080808" }}>
               <Trophy className="h-4 w-4" /> SportClub
             </div>
             <h1 style={{ fontSize: "clamp(36px, 4vw, 48px)", fontWeight: 900, lineHeight: 1.1, letterSpacing: "-1px", margin: 0 }}>
@@ -59,7 +59,7 @@ export default function LoginPage() {
                 "Canchas, salas, piscina y más instalaciones",
               ].map((item) => (
                 <div key={item} style={{ display: "flex", alignItems: "center", gap: "12px", borderRadius: "16px", background: "rgba(255,255,255,0.1)", padding: "14px", backdropFilter: "blur(4px)" }}>
-                  <CheckCircle2 className="h-5 w-5 shrink-0" style={{ color: "#a3e635" }} />
+                  <CheckCircle2 className="h-5 w-5 shrink-0" style={{ color: "#ffb000" }} />
                   <span style={{ fontWeight: 700, fontSize: "14px" }}>{item}</span>
                 </div>
               ))}
@@ -70,7 +70,7 @@ export default function LoginPage() {
         <section style={{ display: "flex", alignItems: "center", justifyContent: "center", padding: "24px", maxWidth: "100%" }}>
           <div style={{ width: "100%", maxWidth: "420px", borderRadius: "2rem", border: "1px solid rgba(255,255,255,0.1)", background: "rgba(2,6,23,0.7)", padding: "28px", boxShadow: "0 20px 60px rgba(0,0,0,0.5)" }}>
             <div style={{ marginBottom: "32px", textAlign: "center" }}>
-              <div style={{ margin: "0 auto 16px", width: "64px", height: "64px", display: "flex", alignItems: "center", justifyContent: "center", borderRadius: "24px", background: "#a3e635", color: "#020617", boxShadow: "0 8px 24px rgba(163,230,53,0.2)" }}>
+              <div style={{ margin: "0 auto 16px", width: "64px", height: "64px", display: "flex", alignItems: "center", justifyContent: "center", borderRadius: "24px", background: "#ffb000", color: "#080808", boxShadow: "0 8px 24px rgba(255,176,0,0.25)" }}>
                 <User className="h-8 w-8" />
               </div>
               <h2 style={{ fontSize: "28px", fontWeight: 900, letterSpacing: "-0.5px", margin: 0 }}>Iniciar sesión</h2>
@@ -95,7 +95,7 @@ export default function LoginPage() {
                       background: "rgba(255,255,255,0.05)", padding: "14px 14px 14px 44px",
                       fontSize: "14px", outline: "none", color: "white", transition: "all 0.2s",
                     }}
-                    onFocus={(e) => { e.target.style.borderColor = "#a3e635"; e.target.style.boxShadow = "0 0 0 2px rgba(163,230,53,0.2)"; }}
+                    onFocus={(e) => { e.target.style.borderColor = "#ffb000"; e.target.style.boxShadow = "0 0 0 2px rgba(255,176,0,0.25)"; }}
                     onBlur={(e) => { e.target.style.borderColor = "rgba(255,255,255,0.1)"; e.target.style.boxShadow = "none"; }}
                   />
                 </div>
@@ -116,7 +116,7 @@ export default function LoginPage() {
                       background: "rgba(255,255,255,0.05)", padding: "14px 44px 14px 44px",
                       fontSize: "14px", outline: "none", color: "white", transition: "all 0.2s",
                     }}
-                    onFocus={(e) => { e.target.style.borderColor = "#a3e635"; e.target.style.boxShadow = "0 0 0 2px rgba(163,230,53,0.2)"; }}
+                    onFocus={(e) => { e.target.style.borderColor = "#ffb000"; e.target.style.boxShadow = "0 0 0 2px rgba(255,176,0,0.25)"; }}
                     onBlur={(e) => { e.target.style.borderColor = "rgba(255,255,255,0.1)"; e.target.style.boxShadow = "none"; }}
                   />
                   <button
@@ -131,10 +131,10 @@ export default function LoginPage() {
 
               <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", fontSize: "13px" }}>
                 <label style={{ display: "flex", alignItems: "center", gap: "8px", color: "rgba(203,213,225,0.8)" }}>
-                  <input type="checkbox" defaultChecked style={{ accentColor: "#a3e635" }} />
+                  <input type="checkbox" defaultChecked style={{ accentColor: "#ffb000" }} />
                   Recordarme
                 </label>
-                <a href="#" style={{ fontWeight: 700, color: "#a3e635", textDecoration: "none" }}>
+                <a href="#" style={{ fontWeight: 700, color: "#ffb000", textDecoration: "none" }}>
                   ¿Olvidaste tu contraseña?
                 </a>
               </div>
@@ -143,14 +143,14 @@ export default function LoginPage() {
                 type="submit"
                 disabled={loading}
                 style={{
-                  width: "100%", borderRadius: "16px", border: "none", background: "#a3e635",
-                  padding: "14px 20px", fontSize: "15px", fontWeight: 900, color: "#020617",
+                  width: "100%", borderRadius: "16px", border: "none", background: "#ffb000",
+                  padding: "14px 20px", fontSize: "15px", fontWeight: 900, color: "#080808",
                   cursor: loading ? "not-allowed" : "pointer", opacity: loading ? 0.6 : 1,
                   display: "flex", alignItems: "center", justifyContent: "center", gap: "8px",
                   transition: "all 0.2s",
                 }}
-                onMouseEnter={(e) => { if (!loading) e.target.style.background = "#bef264"; }}
-                onMouseLeave={(e) => { if (!loading) e.target.style.background = "#a3e635"; }}
+                onMouseEnter={(e) => { if (!loading) e.target.style.background = "#ffc233"; }}
+                onMouseLeave={(e) => { if (!loading) e.target.style.background = "#ffb000"; }}
               >
                 {loading ? "Ingresando..." : "Entrar a SportClub"} <ArrowRight className="h-5 w-5" />
               </button>
@@ -175,15 +175,15 @@ export default function LoginPage() {
 
             <p style={{ marginTop: "24px", textAlign: "center", fontSize: "14px", color: "rgba(148,163,184,0.8)" }}>
               ¿No tienes cuenta?{" "}
-              <Link to="/register" style={{ fontWeight: 900, color: "#a3e635", textDecoration: "none" }}>
+              <Link to="/register" style={{ fontWeight: 900, color: "#ffb000", textDecoration: "none" }}>
                 Regístrate gratis
               </Link>
             </p>
 
-            <div style={{ marginTop: "20px", display: "flex", alignItems: "flex-start", gap: "12px", borderRadius: "16px", border: "1px solid rgba(163,230,53,0.2)", background: "rgba(163,230,53,0.08)", padding: "14px", fontSize: "13px", color: "rgba(203,213,225,0.8)" }}>
-              <ShieldCheck className="h-5 w-5 shrink-0" style={{ color: "#a3e635", marginTop: "1px" }} />
+            <div style={{ marginTop: "20px", display: "flex", alignItems: "flex-start", gap: "12px", borderRadius: "16px", border: "1px solid rgba(255,176,0,0.25)", background: "rgba(255,176,0,0.08)", padding: "14px", fontSize: "13px", color: "rgba(203,213,225,0.8)" }}>
+              <ShieldCheck className="h-5 w-5 shrink-0" style={{ color: "#ffb000", marginTop: "1px" }} />
               <div>
-                <strong style={{ color: "#a3e635" }}>Usuarios demo:</strong><br />
+                <strong style={{ color: "#ffb000" }}>Usuarios demo:</strong><br />
                 admin1@demo.cl / 12345678 &nbsp;|&nbsp; coach1@demo.cl / 12345678 &nbsp;|&nbsp; user1@demo.cl / 12345678
               </div>
             </div>

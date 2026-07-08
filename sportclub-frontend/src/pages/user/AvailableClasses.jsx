@@ -6,19 +6,30 @@ const dayNames = { 1: 'Lunes', 2: 'Martes', 3: 'Miércoles', 4: 'Jueves', 5: 'Vi
 
 export default function AvailableClasses() {
   const [items, setItems] = useState([]);
+  const [reserving, setReserving] = useState(null);
 
   const load = async () => {
-    const res = await api.get('/member/classes');
-    setItems(res.data.data || []);
+    try {
+      const res = await api.get('/member/classes');
+      setItems(res.data.data || []);
+    } catch {
+      Swal.fire({ icon: 'error', title: 'Error', text: 'No se pudieron cargar las clases' });
+    }
   };
 
   useEffect(() => { load(); }, []);
 
   const handleReserve = async (scheduleId) => {
+    setReserving(scheduleId);
     try {
       await api.post('/reservations', { class_schedule_id: scheduleId });
       Swal.fire({ icon: 'success', title: 'Reserva creada', text: 'Tu clase ha sido reservada exitosamente', timer: 2000, showConfirmButton: false });
-    } catch { /* handled */ }
+      load();
+    } catch {
+      Swal.fire({ icon: 'error', title: 'Error', text: 'No se pudo crear la reserva' });
+    } finally {
+      setReserving(null);
+    }
   };
 
   return (
@@ -48,8 +59,8 @@ export default function AvailableClasses() {
                   <td>{dayNames[item.day_of_week] || item.day_of_week}</td>
                   <td>{item.start_time?.substring(0, 5)} - {item.end_time?.substring(0, 5)}</td>
                   <td>
-                    <button className="btn btn-primary btn-sm" onClick={() => handleReserve(item.id)}>
-                      Reservar
+                    <button className="btn btn-primary btn-sm" onClick={() => handleReserve(item.id)} disabled={reserving === item.id}>
+                      {reserving === item.id ? 'Reservando...' : 'Reservar'}
                     </button>
                   </td>
                 </tr>

@@ -1,16 +1,6 @@
 import { NavLink } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 
-const adminLinks = [
-  { to: '/dashboard', label: 'Panel', icon: '📊' },
-  { to: '/dashboard/users', label: 'Usuarios', icon: '👥' },
-  { to: '/dashboard/sports', label: 'Deportes', icon: '⚽' },
-  { to: '/dashboard/rooms', label: 'Salas', icon: '🏠' },
-  { to: '/dashboard/sport-rooms', label: 'Asignaciones', icon: '🔗' },
-  { to: '/dashboard/schedules', label: 'Horarios', icon: '🕐' },
-  { to: '/dashboard/reservations', label: 'Reservas', icon: '📅' },
-];
-
 const coachLinks = [
   { to: '/coach/dashboard', label: 'Panel', icon: '📊' },
   { to: '/coach/classes', label: 'Mis Clases', icon: '⚽' },
@@ -28,9 +18,7 @@ const userLinks = [
 export default function Sidebar() {
   const { user } = useAuth();
 
-  const links = user?.role === 'admin' ? adminLinks
-    : user?.role === 'coach' ? coachLinks
-    : userLinks;
+  const links = user?.role === 'coach' ? coachLinks : userLinks;
 
   return (
     <aside className="sidebar">
@@ -42,7 +30,7 @@ export default function Sidebar() {
           <NavLink
             key={link.to}
             to={link.to}
-            end={link.to === '/dashboard' || link.to === '/coach/dashboard' || link.to === '/user/dashboard'}
+            end={link.to === '/coach/dashboard' || link.to === '/user/dashboard'}
             className={({ isActive }) => `sidebar-link ${isActive ? 'active' : ''}`}
           >
             <span>{link.icon}</span>

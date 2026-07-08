@@ -42,7 +42,7 @@ const styles = {
     width: "36px",
     height: "36px",
     borderRadius: "10px",
-    background: "linear-gradient(135deg,#a3e635,#84cc16)",
+    background: "linear-gradient(135deg,#ffb000,#ff6500)",
     display: "grid",
     placeItems: "center",
     color: "#fff",
@@ -75,7 +75,7 @@ const styles = {
     display: "inline-flex",
     alignItems: "center",
     gap: "8px",
-    color: "#a3e635",
+    color: "#ffb000",
     fontSize: "13px",
     fontWeight: 900,
     letterSpacing: "2.5px",
@@ -91,7 +91,7 @@ const styles = {
     textTransform: "uppercase",
   },
   accent: {
-    background: "linear-gradient(135deg,#a3e635,#84cc16)",
+    background: "linear-gradient(135deg,#ffb000,#ff6500)",
     WebkitBackgroundClip: "text",
     WebkitTextFillColor: "transparent",
   },
@@ -111,12 +111,12 @@ const styles = {
   primaryBtn: {
     border: "0",
     borderRadius: "999px",
-    background: "linear-gradient(135deg,#a3e635,#84cc16)",
-    color: "#020617",
+    background: "linear-gradient(135deg,#ffb000,#ff6500)",
+    color: "#080808",
     padding: "13px 24px",
     fontWeight: 950,
     cursor: "pointer",
-    boxShadow: "0 14px 28px rgba(163,230,53,.35)",
+    boxShadow: "0 14px 28px rgba(255,176,0,0.35)",
     fontSize: "14px",
   },
   secondaryBtn: {
@@ -152,7 +152,7 @@ const styles = {
     width: "80%",
     height: "370px",
     borderRadius: "24px",
-    background: "linear-gradient(90deg,rgba(5,5,5,.8),rgba(5,5,5,.05) 50%,rgba(163,230,53,.12))",
+    background: "linear-gradient(90deg,rgba(5,5,5,.8),rgba(5,5,5,.05) 50%,rgba(255,176,0,0.12))",
   },
   orangeBlock: {
     position: "absolute",
@@ -160,7 +160,7 @@ const styles = {
     bottom: "-60px",
     width: "280px",
     height: "280px",
-    background: "linear-gradient(135deg,#a3e635,#84cc16)",
+    background: "linear-gradient(135deg,#ffb000,#ff6500)",
     transform: "rotate(42deg)",
     borderRadius: "40px",
     opacity: 0.6,
@@ -171,7 +171,7 @@ const styles = {
     top: "90px",
     width: "180px",
     height: "5px",
-    background: "linear-gradient(90deg,transparent,#a3e635)",
+    background: "linear-gradient(90deg,transparent,#ffb000)",
     transform: "rotate(62deg)",
     borderRadius: "20px",
   },
@@ -181,7 +181,7 @@ const styles = {
     top: "200px",
     width: "160px",
     height: "5px",
-    background: "#a3e635",
+    background: "#ffb000",
     transform: "rotate(-38deg)",
     borderRadius: "20px",
     opacity: 0.7,
@@ -192,7 +192,7 @@ const styles = {
     bottom: "0",
     width: "170px",
     height: "100px",
-    backgroundImage: "radial-gradient(rgba(163,230,53,.4) 1.5px, transparent 1.5px)",
+    backgroundImage: "radial-gradient(rgba(255,176,0,0.4) 1.5px, transparent 1.5px)",
     backgroundSize: "14px 14px",
     opacity: 0.6,
   },
@@ -265,7 +265,7 @@ const styles = {
     border: "1px solid rgba(255,255,255,.07)",
   },
   score: {
-    background: "linear-gradient(135deg,#a3e635,#84cc16)",
+    background: "linear-gradient(135deg,#ffb000,#ff6500)",
     color: "#fff",
     padding: "6px 12px",
     borderRadius: "12px",
@@ -274,9 +274,9 @@ const styles = {
   },
   tag: {
     display: "inline-block",
-    background: "rgba(163,230,53,.15)",
-    color: "#a3e635",
-    border: "1px solid rgba(163,230,53,.25)",
+    background: "rgba(255,176,0,0.15)",
+    color: "#ffb000",
+    border: "1px solid rgba(255,176,0,0.25)",
     borderRadius: "999px",
     padding: "5px 10px",
     fontSize: "11px",
@@ -284,9 +284,9 @@ const styles = {
     marginBottom: "10px",
   },
   tagGreen: {
-    background: "rgba(163,230,53,.15)",
-    color: "#a3e635",
-    border: "1px solid rgba(163,230,53,.25)",
+    background: "rgba(255,176,0,0.15)",
+    color: "#ffb000",
+    border: "1px solid rgba(255,176,0,0.25)",
   },
   sectionAlt: {
     marginTop: "24px",
@@ -315,8 +315,8 @@ const styles = {
     fontSize: "12px",
   },
   filterBtnActive: {
-    background: "linear-gradient(135deg,#a3e635,#84cc16)",
-    color: "#020617",
+    background: "linear-gradient(135deg,#ffb000,#ff6500)",
+    color: "#080808",
     border: "1px solid transparent",
   },
   newsGrid: {
@@ -385,7 +385,7 @@ const styles = {
   infoNumber: {
     fontSize: "36px",
     fontWeight: 1000,
-    background: "linear-gradient(135deg,#a3e635,#84cc16)",
+    background: "linear-gradient(135deg,#ffb000,#ff6500)",
     WebkitBackgroundClip: "text",
     WebkitTextFillColor: "transparent",
   },
@@ -480,10 +480,10 @@ export default function LandingPage() {
               <a style={styles.link} href="#deportes" onClick={(e) => { e.preventDefault(); scrollTo("deportes"); }}>Deportes</a>
               <a style={styles.link} href="#resultados" onClick={(e) => { e.preventDefault(); scrollTo("resultados"); }}>Resultados</a>
               <a style={styles.link} href="#noticias" onClick={(e) => { e.preventDefault(); scrollTo("noticias"); }}>Noticias</a>
-              <Link to="/login" style={{ ...styles.link, color: "#a3e635", fontWeight: 900 }}>Ingresar</Link>
+              <Link to="/login" style={{ ...styles.link, color: "#ffb000", fontWeight: 900 }}>Ingresar</Link>
               <Link to="/register" style={{
                 borderRadius: "999px",
-    background: "linear-gradient(135deg,#a3e635,#84cc16)",
+    background: "linear-gradient(135deg,#ffb000,#ff6500)",
                 color: "#fff",
                 padding: "8px 18px",
                 fontWeight: 800,

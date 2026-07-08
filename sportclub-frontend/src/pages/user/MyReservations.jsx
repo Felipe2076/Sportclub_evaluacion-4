@@ -4,10 +4,15 @@ import Swal from 'sweetalert2';
 
 export default function MyReservations() {
   const [items, setItems] = useState([]);
+  const [cancelling, setCancelling] = useState(null);
 
   const load = async () => {
-    const res = await api.get('/reservations/my-reservations');
-    setItems(res.data.data || []);
+    try {
+      const res = await api.get('/reservations/my-reservations');
+      setItems(res.data.data || []);
+    } catch {
+      Swal.fire({ icon: 'error', title: 'Error', text: 'No se pudieron cargar las reservas' });
+    }
   };
 
   useEffect(() => { load(); }, []);
@@ -15,11 +20,16 @@ export default function MyReservations() {
   const handleCancel = async (id) => {
     const result = await Swal.fire({ title: '¿Cancelar reserva?', icon: 'warning', showCancelButton: true, confirmButtonColor: '#d33', cancelButtonText: 'No', confirmButtonText: 'Sí, cancelar' });
     if (!result.isConfirmed) return;
+    setCancelling(id);
     try {
       await api.patch(`/reservations/${id}/cancel`);
       Swal.fire({ icon: 'success', title: 'Reserva cancelada', timer: 1500, showConfirmButton: false });
       load();
-    } catch { /* handled */ }
+    } catch {
+      Swal.fire({ icon: 'error', title: 'Error', text: 'No se pudo cancelar la reserva' });
+    } finally {
+      setCancelling(null);
+    }
   };
 
   return (
@@ -48,7 +58,9 @@ export default function MyReservations() {
                   <td>{item.observation || '-'}</td>
                   <td>
                     {item.status === 'active' && (
-                      <button className="btn btn-sm btn-delete" onClick={() => handleCancel(item.id)}>Cancelar</button>
+                      <button className="btn btn-sm btn-delete" onClick={() => handleCancel(item.id)} disabled={cancelling === item.id}>
+                        {cancelling === item.id ? 'Cancelando...' : 'Cancelar'}
+                      </button>
                     )}
                   </td>
                 </tr>

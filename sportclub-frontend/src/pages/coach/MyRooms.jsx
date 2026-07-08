@@ -1,17 +1,22 @@
 import { useState, useEffect } from 'react';
 import api from '../../services/api';
+import Swal from 'sweetalert2';
 
 export default function MyRooms() {
   const [items, setItems] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    api.get('/coach/my-rooms').then((res) => setItems(res.data.data || [])).catch(() => {});
+    api.get('/coach/my-rooms')
+      .then((res) => setItems(res.data.data || []))
+      .catch(() => Swal.fire({ icon: 'error', title: 'Error', text: 'No se pudieron cargar las salas' }))
+      .finally(() => setLoading(false));
   }, []);
 
   return (
     <div>
       <h1>Mis Salas</h1>
-      {items.length === 0 ? (
+      {loading ? <p>Cargando...</p> : items.length === 0 ? (
         <p>No tienes salas asignadas.</p>
       ) : (
         <div className="table-container">

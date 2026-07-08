@@ -6,7 +6,9 @@
   "type": "commonjs",
   "scripts": {
     "dev": "nodemon src/server.js",
-    "start": "node src/server.js"
+    "start": "node src/server.js",
+    "build-frontend": "cd ../sportclub-frontend && pnpm install && pnpm build && powershell -Command \"if (Test-Path '../backend/public') { Remove-Item -Recurse -Force '../backend/public' }; Copy-Item -Recurse 'dist' '../backend/public'\"",
+    "deploy": "pnpm build-frontend && pnpm start"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",
