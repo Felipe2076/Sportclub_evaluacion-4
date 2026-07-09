@@ -425,7 +425,7 @@ export default function CoachDashboard() {
       setSchedules(schedulesRes.data.data || []);
       setRooms(roomsRes.data.data || []);
     } catch {
-      /* handled by interceptor */
+      Swal.fire({ icon: 'error', title: 'Error', text: 'No se pudieron cargar los datos' });
     } finally {
       setLoading(false);
     }

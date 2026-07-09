@@ -92,7 +92,7 @@ export default function DashboardAdmin() {
       setSportRooms(sr.data.data || []);
       setSchedules(sc.data.data || []);
       setReservations(re.data.data || []);
-    } catch {}
+    } catch { Swal.fire({ icon: "error", title: "Error", text: "No se pudieron cargar los datos" }); }
   }, []);
 
   useEffect(() => { loadAll(); }, [loadAll]);
@@ -285,7 +285,7 @@ export default function DashboardAdmin() {
                   <div style={{ display: "grid", gap: "8px" }}>
                     {sections.filter((s) => s.id !== "overview").map((s) => (
                       <button key={s.id} type="button" onClick={() => setSection(s.id)} style={{ ...S.secondaryBtn, textAlign: "left", width: "100%" }}>
-                        {s.icon} {s.label}
+                        {s.label}
                       </button>
                     ))}
                   </div>

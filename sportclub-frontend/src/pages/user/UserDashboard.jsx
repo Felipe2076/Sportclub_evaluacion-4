@@ -92,7 +92,7 @@ export default function UserDashboard() {
       setSports(sp.data.data || []);
       setRooms(r.data.data || []);
       setMyReservations(res.data.data || []);
-    } catch { /* handled */ } finally { setLoading(false); }
+    } catch { Swal.fire({ icon: 'error', title: 'Error', text: 'No se pudieron cargar los datos' }); } finally { setLoading(false); }
   };
 
   useEffect(() => { loadData(); }, []);
